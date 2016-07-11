@@ -1,0 +1,7 @@
+logging:
+  level: DEBUG
+  appenders:
+      - type: console
+        timeZone: CET
+database:
+  connected: false
