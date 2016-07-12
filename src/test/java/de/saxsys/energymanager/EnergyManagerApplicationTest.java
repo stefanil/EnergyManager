@@ -16,8 +16,12 @@ import com.codahale.metrics.health.HealthCheckRegistry;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.servlet.Filter;
+import javax.servlet.FilterRegistration.Dynamic;
+
 import io.dropwizard.jersey.setup.JerseyEnvironment;
 import io.dropwizard.jersey.validation.DropwizardConfiguredValidator;
+import io.dropwizard.jetty.setup.ServletEnvironment;
 import io.dropwizard.servlets.tasks.Task;
 import io.dropwizard.setup.AdminEnvironment;
 import io.dropwizard.setup.Environment;
@@ -35,6 +39,8 @@ public class EnergyManagerApplicationTest {
   private final EnergyManagerApplication application = new EnergyManagerApplication();
   private final DatabaseConfiguration databaseConfiguration = new DatabaseConfiguration();
   private final EnergyManagerConfiguration energyManagerConfiguration = new EnergyManagerConfiguration();
+  private final ServletEnvironment servletEnvironment = mock(ServletEnvironment.class);
+  private final Dynamic filterRegistration = mock(Dynamic.class);
 
   @Before
   public void setup() throws Exception {
@@ -44,6 +50,9 @@ public class EnergyManagerApplicationTest {
     when(environment.getValidator()).thenReturn(validator);
     when(environment.admin()).thenReturn(adminEnvironment);
     doNothing().when(adminEnvironment).addTask(isA(Task.class));
+    when(environment.servlets()).thenReturn(servletEnvironment);
+    when(servletEnvironment.addFilter(eq("persist-filter"), isA(Filter.class)))
+        .thenReturn(filterRegistration);
   }
 
   @Test

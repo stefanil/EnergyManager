@@ -10,8 +10,11 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
-import com.google.inject.persist.PersistService;
+import com.google.inject.persist.PersistFilter;
 
+import java.util.EnumSet;
+
+import javax.servlet.DispatcherType;
 import javax.validation.Validator;
 
 import io.dropwizard.Application;
@@ -37,7 +40,13 @@ public class EnergyManagerApplication extends Application<EnergyManagerConfigura
   @Override
   public void run(final EnergyManagerConfiguration configuration, final Environment environment) {
     final Injector injector = createInjector(configuration, environment);
-    injector.getInstance(PersistService.class).start();
+    // use of session-per-http-request strategy
+    environment.servlets().addFilter(
+        "persist-filter",
+        injector.getInstance(PersistFilter.class)
+    ).addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), true, "/*");
+    // for session-per-transaction-strategy we could simply use the following
+    // injector.getInstance(PersistService.class).start();
 
     environment.jersey().register(injector.getInstance(SolarPanelsResource.class));
     environment.healthChecks().register("database", new DatabaseHealthCheck(configuration.getDatabase()));
