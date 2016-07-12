@@ -77,14 +77,6 @@ public class DbUtil {
       return function.apply(CONNECTION);
     } catch (final SQLException exc) {
       LOG.error("SQL error on database operation.", exc);
-    } finally {
-      try {
-        if (CONNECTION != null) {
-          CONNECTION.close();
-        }
-      } catch (SQLException exc) {
-        LOG.error("Error while closing the database.", exc);
-      }
     }
 
     return null;
