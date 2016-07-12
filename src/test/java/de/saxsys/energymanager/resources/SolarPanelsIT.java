@@ -2,10 +2,12 @@ package de.saxsys.energymanager.resources;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import de.saxsys.energymanager.DatabaseConfiguration;
 import de.saxsys.energymanager.EnergyManagerApplication;
 import de.saxsys.energymanager.EnergyManagerConfiguration;
 import de.saxsys.energymanager.api.MonitoringData;
 import de.saxsys.energymanager.api.SolarPanel;
+import de.saxsys.energymanager.db.DbUtil;
 
 import org.glassfish.jersey.client.ClientProperties;
 import org.junit.BeforeClass;
@@ -36,6 +38,8 @@ public class SolarPanelsIT {
 
   private static SolarPanelsResourceClient CLIENT;
 
+  private DatabaseConfiguration databaseConfiguration = APP_RULE.getConfiguration().getDatabase();
+
   @BeforeClass
   public static void setUp() throws Exception {
     final Client client = new JerseyClientBuilder(APP_RULE.getEnvironment())
@@ -47,10 +51,12 @@ public class SolarPanelsIT {
 
   @Test
   public void step01ASolarPanelShouldBeCreated() throws Exception {
-    final SolarPanel solarPanel = new SolarPanel("aPanel");
+    assertThat(DbUtil.countCustomers(databaseConfiguration)).isZero();
 
-    CLIENT.createSolarPanel(solarPanel, Response.class, response ->
-        assertThat(response.getStatusInfo()).isEqualTo(Status.OK));
+    CLIENT.createSolarPanel(new SolarPanel("aPanel"), Response.class, response -> {
+      assertThat(response.getStatusInfo()).isEqualTo(Status.OK);
+      assertThat(DbUtil.countCustomers(databaseConfiguration)).isEqualTo(1);
+    });
   }
 
   @Test
