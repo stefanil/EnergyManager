@@ -1,0 +1,12 @@
+logging:
+  level: DEBUG
+  appenders:
+      - type: console
+        timeZone: CET
+database:
+  driverClass: org.hsqldb.jdbc.JDBCDriver
+  user: sa
+  password:
+  url: jdbc:hsqldb:mem:testdb;shutdown=true
+  mode: create-drop
+  dialect: org.hibernate.dialect.HSQLDialect
