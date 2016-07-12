@@ -1,12 +1,4 @@
-/*
- * This document contains trade secret data which is the property of
- * IAV GmbH. Information contained herein may not be used,
- * copied or disclosed in whole or part except as permitted by written
- * agreement from IAV GmbH.
- *
- * Copyright (C) IAV GmbH / Gifhorn / Germany
- */
-package de.saxsys.energymanager.db;
+ package de.saxsys.energymanager.db;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.isA;
@@ -25,17 +17,17 @@ import org.junit.Test;
 import javax.persistence.EntityManager;
 
 /**
- * Unit test for {@link SolarPanelMonitor}.
+ * Unit test for {@link SolarPanelDao}.
  */
-public class SolarPanelMonitorTest {
+public class SolarPanelDaoTest {
 
-  private SolarPanelMonitor cut;
+  private SolarPanelDao cut;
 
   private EntityManager em = mock(EntityManager.class);
 
   @Before
   public void setUp() throws Exception {
-    cut = new SolarPanelMonitor(() -> em);
+    cut = new SolarPanelDao(() -> em);
   }
 
   @Test

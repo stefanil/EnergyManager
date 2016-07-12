@@ -1,12 +1,4 @@
-/*
- * This document contains trade secret data which is the property of
- * IAV GmbH. Information contained herein may not be used,
- * copied or disclosed in whole or part except as permitted by written
- * agreement from IAV GmbH.
- *
- * Copyright (C) IAV GmbH / Gifhorn / Germany
- */
-package de.saxsys.energymanager.db;
+ package de.saxsys.energymanager.db;
 
 import static com.google.common.base.Strings.nullToEmpty;
 
@@ -74,7 +66,7 @@ public class DbUtil {
   private static <T> T runOnJDBCConnection(final DatabaseConfiguration databaseConfiguration,
       final ThrowingFunction<Connection, T, SQLException> function) {
     try {
-      if(CONNECTION == null) {
+      if (CONNECTION == null) {
         CONNECTION = DriverManager.getConnection(
             databaseConfiguration.getUrl(),
             getJDBCConnectionProperties(databaseConfiguration));
@@ -87,7 +79,6 @@ public class DbUtil {
       try {
         if (CONNECTION != null) {
           CONNECTION.close();
-//          CONNECTION = null;
         }
       } catch (SQLException exc) {
         LOG.error("Error while closing the database.", exc);

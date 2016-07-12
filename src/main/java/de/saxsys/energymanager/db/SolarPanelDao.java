@@ -1,12 +1,4 @@
-/*
- * This document contains trade secret data which is the property of
- * IAV GmbH. Information contained herein may not be used,
- * copied or disclosed in whole or part except as permitted by written
- * agreement from IAV GmbH.
- *
- * Copyright (C) IAV GmbH / Gifhorn / Germany
- */
-package de.saxsys.energymanager.db;
+ package de.saxsys.energymanager.db;
 
 import de.saxsys.energymanager.api.MonitoringData;
 import de.saxsys.energymanager.api.MonitoringEntry;
@@ -26,17 +18,17 @@ import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 
 @Singleton
-public class SolarPanelMonitor {
+public class SolarPanelDao {
 
-  private static final Logger LOG = LoggerFactory.getLogger(SolarPanelMonitor.class);
+  private static final Logger LOG = LoggerFactory.getLogger(SolarPanelDao.class);
 
   /* **************** dirty singleton **************** */
 
-//  private static SolarPanelMonitor instance;
+//  private static SolarPanelDao instance;
 //
-//  public static SolarPanelMonitor getInstance() {
+//  public static SolarPanelDao getInstance() {
 //    if (instance == null) {
-//      instance = new SolarPanelMonitor();
+//      instance = new SolarPanelDao();
 //    }
 //    return instance;
 //  }
@@ -47,7 +39,7 @@ public class SolarPanelMonitor {
   private ModelMapper modelMapper;
 
   @Inject
-  public SolarPanelMonitor(final Provider<EntityManager> entityManager) {
+  public SolarPanelDao(final Provider<EntityManager> entityManager) {
     this.entityManager = entityManager;
     modelMapper = new ModelMapper();
   }

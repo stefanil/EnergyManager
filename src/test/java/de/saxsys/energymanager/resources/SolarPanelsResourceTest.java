@@ -1,12 +1,4 @@
-/*
- * This document contains trade secret data which is the property of
- * IAV GmbH. Information contained herein may not be used,
- * copied or disclosed in whole or part except as permitted by written
- * agreement from IAV GmbH.
- *
- * Copyright (C) IAV GmbH / Gifhorn / Germany
- */
-package de.saxsys.energymanager.resources;
+ package de.saxsys.energymanager.resources;
 
 import static com.google.common.collect.Lists.newArrayList;
 
@@ -17,7 +9,7 @@ import static org.mockito.Mockito.when;
 
 import de.saxsys.energymanager.api.MonitoringData;
 import de.saxsys.energymanager.api.SolarPanel;
-import de.saxsys.energymanager.db.SolarPanelMonitor;
+import de.saxsys.energymanager.db.SolarPanelDao;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -34,8 +26,8 @@ import io.dropwizard.testing.junit.ResourceTestRule;
  */
 public class SolarPanelsResourceTest {
 
-  private final SolarPanelMonitor solarPanelMonitor = mock(SolarPanelMonitor.class);
-  private final SolarPanelsResource cut = new SolarPanelsResource(solarPanelMonitor);
+  private final SolarPanelDao solarPanelDao = mock(SolarPanelDao.class);
+  private final SolarPanelsResource cut = new SolarPanelsResource(solarPanelDao);
 
   @Rule
   public final ResourceTestRule resources = ResourceTestRule.builder()
@@ -56,7 +48,7 @@ public class SolarPanelsResourceTest {
 
     client.createSolarPanel(solarPanel, Response.class, response -> {
       assertThat(response.getStatusInfo()).isEqualTo(Status.OK);
-      verify(solarPanelMonitor).addSolarPanel(solarPanel);
+      verify(solarPanelDao).addSolarPanel(solarPanel);
     });
   }
 
@@ -65,16 +57,16 @@ public class SolarPanelsResourceTest {
     final int id = 0;
     final int days = 3;
     final SolarPanel solarPanel = new SolarPanel("aPanel");
-    when(solarPanelMonitor.isMonitored(id)).thenReturn(true);
-    when(solarPanelMonitor.generateMonitoringData(id, days))
+    when(solarPanelDao.isMonitored(id)).thenReturn(true);
+    when(solarPanelDao.generateMonitoringData(id, days))
         .thenReturn(new MonitoringData(solarPanel, newArrayList()));
 
     client.retrieveMonitoringData(id, days, MonitoringData.class, monitoringData -> {
       assertThat(monitoringData).isNotNull();
       assertThat(monitoringData.getSolarPanel()).isEqualTo(solarPanel);
       assertThat(monitoringData.getEntries()).isEmpty();
-      verify(solarPanelMonitor).isMonitored(id);
-      verify(solarPanelMonitor).generateMonitoringData(id, days);
+      verify(solarPanelDao).isMonitored(id);
+      verify(solarPanelDao).generateMonitoringData(id, days);
     });
   }
 
@@ -87,7 +79,7 @@ public class SolarPanelsResourceTest {
   @Test
   public void solarPanelMonitoringThrowsBadRequestWhenDaysIsANegativeNumber() throws Exception {
     final int id = 0;
-    when(solarPanelMonitor.isMonitored(id)).thenReturn(true);
+    when(solarPanelDao.isMonitored(id)).thenReturn(true);
 
     client.retrieveMonitoringData(id, -1, Response.class, response ->
         assertThat(response.getStatusInfo()).isEqualTo(Status.BAD_REQUEST));

@@ -2,7 +2,7 @@ package de.saxsys.energymanager;
 
 import static de.saxsys.energymanager.db.DbUtil.createJpaPersistModule;
 
-import de.saxsys.energymanager.db.SolarPanelMonitor;
+import de.saxsys.energymanager.db.SolarPanelDao;
 import de.saxsys.energymanager.db.DbShutdownTask;
 import de.saxsys.energymanager.health.DatabaseHealthCheck;
 import de.saxsys.energymanager.resources.SolarPanelsResource;
@@ -31,14 +31,14 @@ public class EnergyManagerApplication extends Application<EnergyManagerConfigura
 
   @Override
   public void initialize(final Bootstrap<EnergyManagerConfiguration> bootstrap) {
-    // TODO: application initialization
+    // nothing to do here
   }
 
   @Override
   public void run(final EnergyManagerConfiguration configuration, final Environment environment) {
     final Injector injector = createInjector(configuration, environment);
 
-    environment.jersey().register(new SolarPanelsResource(injector.getInstance(SolarPanelMonitor.class)));
+    environment.jersey().register(new SolarPanelsResource(injector.getInstance(SolarPanelDao.class)));
     environment.healthChecks().register("database", new DatabaseHealthCheck(configuration.getDatabase()));
 
     environment.admin().addTask(new DbShutdownTask(configuration.getDatabase()));

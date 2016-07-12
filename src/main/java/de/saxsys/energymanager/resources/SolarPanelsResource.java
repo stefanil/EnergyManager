@@ -1,18 +1,10 @@
-/*
- * This document contains trade secret data which is the property of
- * IAV GmbH. Information contained herein may not be used,
- * copied or disclosed in whole or part except as permitted by written
- * agreement from IAV GmbH.
- *
- * Copyright (C) IAV GmbH / Gifhorn / Germany
- */
-package de.saxsys.energymanager.resources;
+ package de.saxsys.energymanager.resources;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 import de.saxsys.energymanager.api.MonitoringData;
 import de.saxsys.energymanager.api.SolarPanel;
-import de.saxsys.energymanager.db.SolarPanelMonitor;
+import de.saxsys.energymanager.db.SolarPanelDao;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,18 +29,18 @@ public class SolarPanelsResource {
 
   private static final Logger LOG = LoggerFactory.getLogger(SolarPanelsResource.class);
 
-  private final SolarPanelMonitor solarPanelMonitor;
+  private final SolarPanelDao solarPanelDao;
 
   @Inject
-  public SolarPanelsResource(final SolarPanelMonitor solarPanelMonitor) {
-    this.solarPanelMonitor = solarPanelMonitor;
+  public SolarPanelsResource(final SolarPanelDao solarPanelDao) {
+    this.solarPanelDao = solarPanelDao;
   }
 
   @POST
   public Response createSolarPanel(@Valid @NotNull final SolarPanel solarPanel) {
     LOG.debug("Creating the solar panel {}", solarPanel);
 
-    solarPanelMonitor.addSolarPanel(solarPanel);
+    solarPanelDao.addSolarPanel(solarPanel);
     return Response.ok().build();
   }
 
@@ -57,7 +49,7 @@ public class SolarPanelsResource {
   public MonitoringData retrieveMonitoringData(@PathParam("id") int id, @PathParam("days") int days) {
     LOG.info("Getting monitoring data for solar panel with index {}.", id);
 
-    if (!solarPanelMonitor.isMonitored(id)) {
+    if (!solarPanelDao.isMonitored(id)) {
       final String message = "Solar panel with id " + id + " was not found.";
       LOG.warn(message);
       throw new WebApplicationException(message, Status.NOT_FOUND);
@@ -68,7 +60,7 @@ public class SolarPanelsResource {
       throw new WebApplicationException(message, Status.BAD_REQUEST);
     }
 
-    return solarPanelMonitor.generateMonitoringData(id, days);
+    return solarPanelDao.generateMonitoringData(id, days);
   }
 
 }
