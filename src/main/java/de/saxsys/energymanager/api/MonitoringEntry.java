@@ -1,4 +1,4 @@
- package de.saxsys.energymanager.api;
+package de.saxsys.energymanager.api;
 
 import static com.google.common.collect.Lists.newArrayList;
 

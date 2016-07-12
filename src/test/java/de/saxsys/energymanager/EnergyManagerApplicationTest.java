@@ -1,4 +1,4 @@
- package de.saxsys.energymanager;
+package de.saxsys.energymanager;
 
 import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isA;

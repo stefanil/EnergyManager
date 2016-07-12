@@ -7,6 +7,6 @@ database:
   driverClass: org.hsqldb.jdbc.JDBCDriver
   user: sa
   password:
-  url: jdbc:hsqldb:mem:testdb;shutdown=true
+  url: jdbc:hsqldb:mem:testdb
   mode: create-drop
   dialect: org.hibernate.dialect.HSQLDialect

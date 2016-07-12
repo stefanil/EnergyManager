@@ -1,10 +1,12 @@
- package de.saxsys.energymanager.resources;
+package de.saxsys.energymanager.resources;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 import de.saxsys.energymanager.api.MonitoringData;
 import de.saxsys.energymanager.api.SolarPanel;
 import de.saxsys.energymanager.db.SolarPanelDao;
+
+import com.google.inject.persist.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,6 +39,7 @@ public class SolarPanelsResource {
   }
 
   @POST
+  @Transactional
   public Response createSolarPanel(@Valid @NotNull final SolarPanel solarPanel) {
     LOG.debug("Creating the solar panel {}", solarPanel);
 
@@ -46,6 +49,7 @@ public class SolarPanelsResource {
 
   @GET
   @Path("{id}/{days}")
+  @Transactional
   public MonitoringData retrieveMonitoringData(@PathParam("id") int id, @PathParam("days") int days) {
     LOG.info("Getting monitoring data for solar panel with index {}.", id);
 

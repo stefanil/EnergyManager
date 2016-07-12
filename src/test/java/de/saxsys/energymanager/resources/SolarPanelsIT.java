@@ -1,4 +1,4 @@
- package de.saxsys.energymanager.resources;
+package de.saxsys.energymanager.resources;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -7,6 +7,7 @@ import de.saxsys.energymanager.EnergyManagerConfiguration;
 import de.saxsys.energymanager.api.MonitoringData;
 import de.saxsys.energymanager.api.SolarPanel;
 
+import org.glassfish.jersey.client.ClientProperties;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.FixMethodOrder;
@@ -37,7 +38,10 @@ public class SolarPanelsIT {
 
   @BeforeClass
   public static void setUp() throws Exception {
-    final Client client = new JerseyClientBuilder(APP_RULE.getEnvironment()).build("test client");
+    final Client client = new JerseyClientBuilder(APP_RULE.getEnvironment())
+        .build("test client");
+    client.property(ClientProperties.CONNECT_TIMEOUT, 10000);
+    client.property(ClientProperties.READ_TIMEOUT, 10000);
     CLIENT = new SolarPanelsResourceClient(client, APP_RULE.getLocalPort());
   }
 
@@ -53,7 +57,7 @@ public class SolarPanelsIT {
   public void step02ASolarPanelShouldBeMonitored() throws Exception {
     final SolarPanel solarPanel = new SolarPanel("aPanel");
 
-    CLIENT.retrieveMonitoringData(0, 3, MonitoringData.class, monitoringData -> {
+    CLIENT.retrieveMonitoringData(1, 3, MonitoringData.class, monitoringData -> {
       assertThat(monitoringData).isNotNull();
       assertThat(monitoringData.getSolarPanel()).isEqualTo(solarPanel);
     });
@@ -61,13 +65,13 @@ public class SolarPanelsIT {
 
   @Test
   public void step03ASolarPanelMonitoringThrowsNotFoundWhenSolarPanelDoesNotExist() throws Exception {
-    CLIENT.retrieveMonitoringData(1, 3, Response.class, response ->
+    CLIENT.retrieveMonitoringData(0, 3, Response.class, response ->
         assertThat(response.getStatusInfo()).isEqualTo(Status.NOT_FOUND));
   }
 
   @Test
   public void step04ASolarPanelMonitoringThrowsBadRequestWhenDaysIsANegativeNumber() throws Exception {
-    CLIENT.retrieveMonitoringData(0, -1, Response.class, response ->
+    CLIENT.retrieveMonitoringData(1, -1, Response.class, response ->
         assertThat(response.getStatusInfo()).isEqualTo(Status.BAD_REQUEST));
   }
 }

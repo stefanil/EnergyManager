@@ -1,4 +1,4 @@
- package de.saxsys.energymanager.db;
+package de.saxsys.energymanager.db;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.isA;

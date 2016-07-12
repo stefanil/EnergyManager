@@ -1,4 +1,4 @@
- package de.saxsys.energymanager.resources;
+package de.saxsys.energymanager.resources;
 
 import de.saxsys.energymanager.api.SolarPanel;
 

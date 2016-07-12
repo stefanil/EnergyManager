@@ -1,4 +1,4 @@
- package de.saxsys.energymanager.db;
+package de.saxsys.energymanager.db;
 
 import static com.google.common.base.Strings.nullToEmpty;
 

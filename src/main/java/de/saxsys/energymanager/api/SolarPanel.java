@@ -1,4 +1,4 @@
- package de.saxsys.energymanager.api;
+package de.saxsys.energymanager.api;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.MoreObjects;

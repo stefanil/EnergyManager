@@ -1,4 +1,4 @@
- package de.saxsys.energymanager.function;
+package de.saxsys.energymanager.function;
 
 /**
  * A {@link java.util.function.Function} that throws an exception of type E.

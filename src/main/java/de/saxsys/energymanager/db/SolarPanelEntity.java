@@ -1,4 +1,4 @@
- package de.saxsys.energymanager.db;
+package de.saxsys.energymanager.db;
 
 import com.google.common.base.MoreObjects;
 
@@ -27,7 +27,6 @@ public class SolarPanelEntity {
   private String name;
 
   public SolarPanelEntity() {
-    this(null, "");
   }
 
   public SolarPanelEntity(final Long id, final String name) {
