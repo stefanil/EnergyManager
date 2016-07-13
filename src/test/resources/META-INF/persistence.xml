@@ -3,6 +3,6 @@
   <persistence-unit name="Default" transaction-type="RESOURCE_LOCAL">
     <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
     <!-- must reside here due to exclude-unlisted-classes attribute seems to be ignored -->
-    <class>de.saxsys.energymanager.db.SolarPanelEntity</class>
+    <class>de.saxsys.energymanager.model.SolarPanelEntity</class>
   </persistence-unit>
 </persistence>

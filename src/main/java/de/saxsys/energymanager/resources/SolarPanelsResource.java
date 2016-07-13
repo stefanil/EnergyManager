@@ -4,7 +4,7 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 import de.saxsys.energymanager.api.MonitoringData;
 import de.saxsys.energymanager.api.SolarPanel;
-import de.saxsys.energymanager.db.SolarPanelDao;
+import de.saxsys.energymanager.model.SolarPanelDao;
 
 import com.google.inject.persist.Transactional;
 

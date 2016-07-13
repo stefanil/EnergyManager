@@ -2,12 +2,12 @@ package de.saxsys.energymanager.resources;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import de.saxsys.energymanager.DatabaseConfiguration;
+import de.saxsys.energymanager.configuration.DatabaseConfiguration;
 import de.saxsys.energymanager.EnergyManagerApplication;
-import de.saxsys.energymanager.EnergyManagerConfiguration;
+import de.saxsys.energymanager.configuration.EnergyManagerConfiguration;
 import de.saxsys.energymanager.api.MonitoringData;
 import de.saxsys.energymanager.api.SolarPanel;
-import de.saxsys.energymanager.db.DbUtil;
+import de.saxsys.energymanager.util.DbUtil;
 
 import org.glassfish.jersey.client.ClientProperties;
 import org.junit.BeforeClass;

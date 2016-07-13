@@ -1,8 +1,10 @@
 package de.saxsys.energymanager;
 
-import static de.saxsys.energymanager.db.DbUtil.createJpaPersistModule;
+import static de.saxsys.energymanager.util.DbUtil.createJpaPersistModule;
 
-import de.saxsys.energymanager.db.DbShutdownTask;
+import de.saxsys.energymanager.configuration.DatabaseConfiguration;
+import de.saxsys.energymanager.configuration.EnergyManagerConfiguration;
+import de.saxsys.energymanager.tasks.DbShutdownTask;
 import de.saxsys.energymanager.health.DatabaseHealthCheck;
 import de.saxsys.energymanager.resources.SolarPanelsResource;
 

@@ -9,7 +9,7 @@ import static org.mockito.Mockito.when;
 
 import de.saxsys.energymanager.api.MonitoringData;
 import de.saxsys.energymanager.api.SolarPanel;
-import de.saxsys.energymanager.db.SolarPanelDao;
+import de.saxsys.energymanager.model.SolarPanelDao;
 
 import org.junit.Before;
 import org.junit.Rule;

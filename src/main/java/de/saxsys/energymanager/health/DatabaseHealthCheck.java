@@ -1,8 +1,8 @@
 package de.saxsys.energymanager.health;
 
-import static de.saxsys.energymanager.db.DbUtil.isConnected;
+import static de.saxsys.energymanager.util.DbUtil.isConnected;
 
-import de.saxsys.energymanager.DatabaseConfiguration;
+import de.saxsys.energymanager.configuration.DatabaseConfiguration;
 
 import com.codahale.metrics.health.HealthCheck;
 

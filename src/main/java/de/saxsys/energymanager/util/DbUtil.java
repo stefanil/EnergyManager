@@ -1,9 +1,8 @@
-package de.saxsys.energymanager.db;
+package de.saxsys.energymanager.util;
 
 import static com.google.common.base.Strings.nullToEmpty;
 
-import de.saxsys.energymanager.DatabaseConfiguration;
-import de.saxsys.energymanager.function.ThrowingFunction;
+import de.saxsys.energymanager.configuration.DatabaseConfiguration;
 
 import com.google.inject.Module;
 import com.google.inject.persist.jpa.JpaPersistModule;

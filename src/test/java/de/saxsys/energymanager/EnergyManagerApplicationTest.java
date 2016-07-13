@@ -7,7 +7,9 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import de.saxsys.energymanager.db.DbShutdownTask;
+import de.saxsys.energymanager.configuration.DatabaseConfiguration;
+import de.saxsys.energymanager.configuration.EnergyManagerConfiguration;
+import de.saxsys.energymanager.tasks.DbShutdownTask;
 import de.saxsys.energymanager.health.DatabaseHealthCheck;
 import de.saxsys.energymanager.resources.SolarPanelsResource;
 

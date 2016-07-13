@@ -1,4 +1,4 @@
-package de.saxsys.energymanager.db;
+package de.saxsys.energymanager.model;
 
 import de.saxsys.energymanager.api.MonitoringData;
 import de.saxsys.energymanager.api.MonitoringEntry;

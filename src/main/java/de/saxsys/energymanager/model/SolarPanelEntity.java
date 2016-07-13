@@ -1,4 +1,4 @@
-package de.saxsys.energymanager.db;
+package de.saxsys.energymanager.model;
 
 import com.google.common.base.MoreObjects;
 

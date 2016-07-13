@@ -1,6 +1,7 @@
-package de.saxsys.energymanager.db;
+package de.saxsys.energymanager.tasks;
 
-import de.saxsys.energymanager.DatabaseConfiguration;
+import de.saxsys.energymanager.configuration.DatabaseConfiguration;
+import de.saxsys.energymanager.util.DbUtil;
 
 import com.google.common.collect.ImmutableMultimap;
 

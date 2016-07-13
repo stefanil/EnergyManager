@@ -1,4 +1,4 @@
-package de.saxsys.energymanager;
+package de.saxsys.energymanager.configuration;
 
 import javax.validation.constraints.NotNull;
 
