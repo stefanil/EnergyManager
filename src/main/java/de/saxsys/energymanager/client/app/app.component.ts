@@ -1,32 +1,11 @@
-import { Component } from '@angular/core';
+/**
+ *  master
+ */
+import {Component} from '@angular/core';
 
-import {CORE_DIRECTIVES, FORM_DIRECTIVES, NgClass} from '@angular/common';
-import {CHART_DIRECTIVES} from 'ng2-charts';
-
-// class definition
-export class SolarPanel {
-  name: string;
-}
-export class MonitoringData {
-  solarPanel: SolarPanel;
-  entries: number[];
-}
-export class MonitoringDataInput {
-  id: number;
-  days: number;
-}
-
-// mocked data
-const ALL_MONITORING_DATA: MonitoringData[] = [
-  {
-    solarPanel: { name: 'Panel One' },
-    entries: [ 0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100 ]
-  },
-  {
-    solarPanel: { name: 'Panel Two' },
-    entries: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
-  }
-]
+import {SolarPanel} from './solar-panel';
+import {MonitoringData, ALL_MONITORING_DATA} from './monitoring-data';
+import {MonitoringDataComponent} from './monitoring-data.component';
 
 @Component({
   selector: 'my-app',
@@ -43,26 +22,8 @@ const ALL_MONITORING_DATA: MonitoringData[] = [
         <span class="badge">{{monitoringData.solarPanel.name}}</span>
       </li>
     </ul>
-    <h2>Monitoring Data</h2>
-    <div>
-      <label>ID: </label>
-      <input [(ngModel)]="monitoringDataInput.id" placeholder="days">
-    </div>
-    <div>
-      <label>Days: </label>
-      <input [(ngModel)]="monitoringDataInput.days" placeholder="days">
-    </div>
-    <button>
-    <div *ngIf="selectedMonitoringData">
-      <base-chart class="chart"
-          [datasets]="lineChartData"
-          [labels]="lineChartLabels"
-          [options]="lineChartOptions"
-          [colors]="lineChartColours"
-          [legend]="lineChartLegend"
-          [chartType]="lineChartType">
-      </base-chart>
-    </div>
+    <monitoring-data [monitoringData]="selectedMonitoringData">
+    </monitoring-data>
     `,
     styles: [`
     .selected {
@@ -113,45 +74,14 @@ const ALL_MONITORING_DATA: MonitoringData[] = [
     border-radius: 4px 0 0 4px;
   }
   `],
-  directives: [CHART_DIRECTIVES, NgClass, CORE_DIRECTIVES, FORM_DIRECTIVES],
+  directives: [MonitoringDataComponent]
 })
 export class AppComponent {
   title = 'Distributed Energy Management'
-  monitoringDataInput: MonitoringDataInput = {
-    id: 1,
-    days: 3
-  }
   allMonitoringData = ALL_MONITORING_DATA;
   selectedMonitoringData: MonitoringData;
 
   onSelect(monitoringData: MonitoringData) {
     this.selectedMonitoringData = monitoringData;
-    this.lineChartData = [
-      {
-        data: this.selectedMonitoringData.entries,
-        label: this.selectedMonitoringData.solarPanel.name
-      }
-    ];
-    this.lineChartLabels = this.selectedMonitoringData.entries.map((entry, index) => index)
-  };
-
-  // line chart
-  public lineChartData:Array<any>;
-  public lineChartLabels:Array<any>;
-  public lineChartOptions:any = {
-    animation: false,
-    responsive: true
-  };
-  public lineChartColours:Array<any> = [
-    {
-      backgroundColor: 'rgba(148,159,177,0.2)',
-      borderColor: 'rgba(148,159,177,1)',
-      pointBackgroundColor: 'rgba(148,159,177,1)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(148,159,177,0.8)'
-    }
-  ];
-  public lineChartLegend:boolean = true;
-  public lineChartType:string = 'line';
+  }
 }
