@@ -63,14 +63,16 @@ implements OnChanges
   lineChartType:string = 'line';
 
   ngOnChanges(changes: SimpleChanges) {
-    var monitoringDataChange:SimpleChange = changes['monitoringData'];
+    var monitoringDataChange = changes['monitoringData'];
     if(monitoringDataChange != null && monitoringDataChange.currentValue) {
-      this.lineChartLabels = this.monitoringData.entries.map((entry, index) => index);
+      var curMonitoringData:MonitoringData = monitoringDataChange.currentValue;
+      this.lineChartLabels = curMonitoringData.entries
+          .map((entry, index) => index);
       this.lineChartData = [
-         {
-           data: this.monitoringData.entries,
-           label: this.monitoringData.solarPanel.name
-         }
+        {
+          data: curMonitoringData.entries,
+          label: curMonitoringData.solarPanel.name
+        }
       ];
     }
   }
