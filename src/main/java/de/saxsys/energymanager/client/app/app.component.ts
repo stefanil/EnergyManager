@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 
+import {CORE_DIRECTIVES, FORM_DIRECTIVES, NgClass} from '@angular/common';
+import {CHART_DIRECTIVES} from 'ng2-charts';
+
 // class definition
 export class SolarPanel {
   name: string;
@@ -56,6 +59,13 @@ const ALL_MONITORING_DATA: MonitoringData[] = [
         <p>Chart with monioring entries for {{monitoringDataInput.days}} days.</p>
       </div>
     </div>
+    <base-chart class="chart"
+                [data]="doughnutChartData"
+                [labels]="doughnutChartLabels"
+                [chartType]="doughnutChartType"
+                (chartHover)="chartHovered($event)"
+                (chartClick)="chartClicked($event)">
+      </base-chart>
     `,
     styles: [`
     .selected {
@@ -105,7 +115,8 @@ const ALL_MONITORING_DATA: MonitoringData[] = [
     margin-right: .8em;
     border-radius: 4px 0 0 4px;
   }
-  `]
+  `],
+  directives: [CHART_DIRECTIVES, NgClass, CORE_DIRECTIVES, FORM_DIRECTIVES],
 })
 export class AppComponent {
   title = 'Distributed Energy Management'
@@ -119,4 +130,18 @@ export class AppComponent {
   onSelect(monitoringData: MonitoringData) {
     this.selectedMonitoringData = monitoringData;
   };
+
+
+  public doughnutChartLabels:string[] = ['Download Sales', 'In-Store Sales', 'Mail-Order Sales'];
+  public doughnutChartData:number[] = [350, 450, 100];
+  public doughnutChartType:string = 'doughnut';
+
+  public chartClicked(e:any):void {
+    console.log(e);
+  }
+
+  public chartHovered(e:any):void {
+    console.log(e);
+  }
+
 }
