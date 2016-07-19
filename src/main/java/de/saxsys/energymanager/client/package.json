@@ -34,7 +34,6 @@
     "zone.js": "^0.6.12",
 
     "ng2-charts": "^1.1.0",
-    "chart.js": "^2.2.0-rc.1",
 
     "angular2-in-memory-web-api": "0.0.14",
     "bootstrap": "^3.3.6",
