@@ -2,6 +2,7 @@
  *  master
  */
 import {Component} from '@angular/core';
+import {HTTP_PROVIDERS} from '@angular/http';
 
 import {SolarPanel} from './solar-panel';
 import {MonitoringData} from './monitoring-data';
@@ -77,12 +78,15 @@ import {SolarPanelsService} from './solar-panels-service';
   }
   `],
   directives: [MonitoringDataComponent],
-  providers: [SolarPanelsService]
+  providers: [SolarPanelsService, HTTP_PROVIDERS]
 })
 export class AppComponent {
   title = 'Distributed Energy Management'
-  allMonitoringData: MonitoringData[];
-  selectedMonitoringData: MonitoringData;
+  allMonitoringData:MonitoringData[];
+  selectedMonitoringData:MonitoringData;
+  // TODO show solarPanels + error
+  solarPanels:SolarPanel[];
+  error:any;
 
   constructor(private solarPanelsService: SolarPanelsService) {
   }
@@ -90,6 +94,17 @@ export class AppComponent {
   ngOnInit() {
     this.solarPanelsService.getAllMonitoringData()
         .then(monitoringData => this.allMonitoringData = monitoringData);
+
+    this.getSolarPanels();
+  }
+
+  getSolarPanels() {
+    this.solarPanelsService.getSolarPanels()
+      .subscribe(solarPanels =>
+        {
+          this.solarPanels = solarPanels;
+        },
+        error => this.error = error);
   }
 
   onSelect(monitoringData: MonitoringData) {
