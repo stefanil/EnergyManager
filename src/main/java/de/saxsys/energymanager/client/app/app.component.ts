@@ -4,8 +4,10 @@
 import {Component} from '@angular/core';
 
 import {SolarPanel} from './solar-panel';
-import {MonitoringData, ALL_MONITORING_DATA} from './monitoring-data';
+import {MonitoringData} from './monitoring-data';
+
 import {MonitoringDataComponent} from './monitoring-data.component';
+import {SolarPanelsService} from './solar-panels-service';
 
 @Component({
   selector: 'my-app',
@@ -74,12 +76,21 @@ import {MonitoringDataComponent} from './monitoring-data.component';
     border-radius: 4px 0 0 4px;
   }
   `],
-  directives: [MonitoringDataComponent]
+  directives: [MonitoringDataComponent],
+  providers: [SolarPanelsService]
 })
 export class AppComponent {
   title = 'Distributed Energy Management'
-  allMonitoringData = ALL_MONITORING_DATA;
+  allMonitoringData: MonitoringData[];
   selectedMonitoringData: MonitoringData;
+
+  constructor(private solarPanelsService: SolarPanelsService) {
+  }
+
+  ngOnInit() {
+    this.solarPanelsService.getAllMonitoringData()
+        .then(monitoringData => this.allMonitoringData = monitoringData);
+  }
 
   onSelect(monitoringData: MonitoringData) {
     this.selectedMonitoringData = monitoringData;
