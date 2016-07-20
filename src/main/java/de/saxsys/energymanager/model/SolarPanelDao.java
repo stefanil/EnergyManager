@@ -1,5 +1,7 @@
 package de.saxsys.energymanager.model;
 
+import static java.util.stream.Collectors.toList;
+
 import de.saxsys.energymanager.api.MonitoringData;
 import de.saxsys.energymanager.api.MonitoringEntry;
 import de.saxsys.energymanager.api.MonitoringEntry.Weather;
@@ -10,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 import javax.inject.Inject;
@@ -71,6 +74,13 @@ public class SolarPanelDao {
     }
 
     return new MonitoringData(solarPanel, generateEntries(days));
+  }
+
+  public List<SolarPanel> findAllSolarPanels() {
+    return entityManager.get().createQuery("select s from solar_panel s", SolarPanelEntity.class)
+        .getResultList().stream()
+        .map(solarPanelEntity -> modelMapper.map(solarPanelEntity, SolarPanel.class))
+        .collect(toList());
   }
 
   private ArrayList<MonitoringEntry> generateEntries(final int days) {

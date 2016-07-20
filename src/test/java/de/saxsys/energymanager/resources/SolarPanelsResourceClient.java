@@ -4,10 +4,12 @@ import de.saxsys.energymanager.api.SolarPanel;
 
 import org.glassfish.jersey.client.JerseyClient;
 
+import java.util.List;
 import java.util.function.Consumer;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
+import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 
 /**
@@ -17,7 +19,7 @@ public class SolarPanelsResourceClient extends JerseyClient {
 
   public final static int NO_LOCAL_PORT_FOR_RESOURCE_TESTS = -1;
 
-  private final static String BASE_PATH = "/solarPanels";
+  private final static String BASE_PATH_SOLAR_PANELS_RESOURCE = "/solarPanels";
 
   private final Client client;
   private final String baseUri;
@@ -30,8 +32,8 @@ public class SolarPanelsResourceClient extends JerseyClient {
   public SolarPanelsResourceClient(final Client client, final int localPort) {
     this.client = client;
     baseUri = localPort >= 0
-        ? String.format("http://localhost:%d" + BASE_PATH, localPort)
-        : BASE_PATH;
+        ? String.format("http://localhost:%d" + BASE_PATH_SOLAR_PANELS_RESOURCE, localPort)
+        : BASE_PATH_SOLAR_PANELS_RESOURCE;
   }
 
   public <T> void createSolarPanel(final SolarPanel solarPanel, final Class<T> responseType,
@@ -43,12 +45,21 @@ public class SolarPanelsResourceClient extends JerseyClient {
     );
   }
 
-  public <T> void retrieveMonitoringData(final int solarPanelId, final int days, final Class<T> responseType,
+  public <T> void getMonitoringData(final int solarPanelId, final int days, final Class<T> responseType,
       final Consumer<T> postCondition) {
     postCondition.accept(
         client.target(baseUri + "/" + solarPanelId + "/" + days)
             .request()
             .get(responseType)
+    );
+  }
+
+  public void getSolarPanels(final Consumer<List<SolarPanel>> postCondition) {
+    postCondition.accept(
+        client.target(baseUri)
+            .request()
+            .get(new GenericType<List<SolarPanel>>(){
+            })
     );
   }
 }

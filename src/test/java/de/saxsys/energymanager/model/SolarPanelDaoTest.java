@@ -1,5 +1,7 @@
 package de.saxsys.energymanager.model;
 
+import static com.google.common.collect.Lists.newArrayList;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.doAnswer;
@@ -8,13 +10,19 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import static java.util.stream.Collectors.toList;
+
 import de.saxsys.energymanager.api.MonitoringData;
 import de.saxsys.energymanager.api.SolarPanel;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.modelmapper.ModelMapper;
+
+import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 
 /**
  * Unit test for {@link SolarPanelDao}.
@@ -101,4 +109,22 @@ public class SolarPanelDaoTest {
     assertThat(monitoringData).isNull();
   }
 
+  @Test
+  public void shouldFindAllSolarPanels() throws Exception {
+    final List<SolarPanelEntity> solarPanelEntities = newArrayList(
+        new SolarPanelEntity(0L, "panel0"),
+        new SolarPanelEntity(1L, "panel1"),
+        new SolarPanelEntity(2L, "panel2")
+    );
+    final TypedQuery typedQuery = mock(TypedQuery.class);
+    when(em.createQuery("select s from solar_panel s", SolarPanelEntity.class)).thenReturn(typedQuery);
+    when(typedQuery.getResultList()).thenReturn(solarPanelEntities);
+
+    final List<SolarPanel> solarPanels = cut.findAllSolarPanels();
+
+    final List<SolarPanel> expectedSolarPanels = solarPanelEntities.stream()
+        .map(solarPanelEntity -> new ModelMapper().map(solarPanelEntity, SolarPanel.class))
+        .collect(toList());
+    assertThat(expectedSolarPanels).isEqualTo(solarPanels);
+  }
 }
