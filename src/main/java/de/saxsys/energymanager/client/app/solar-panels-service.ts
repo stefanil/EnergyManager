@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Http, Headers} from "@angular/http";
+import 'rxjs/Rx';
 import {Observable} from 'rxjs/Observable';
-
 import {SolarPanel} from './solar-panel';
 import {ALL_MONITORING_DATA} from './monitoring-data';
 
@@ -13,7 +13,7 @@ export class SolarPanelsService {
       'Content-Type': 'application/json'
     })
   };
-  private baseUrl = 'https://localhost:8080';
+  private baseUrl = 'http://localhost:8080';
   private solarPanelsUrl = this.baseUrl + '/solarPanels';
 
   constructor(private http:Http) {
@@ -24,12 +24,10 @@ export class SolarPanelsService {
   }
 
   getSolarPanels() {
-    return Observable.timer(0, 10000).flatMap(time =>
-        this.http.get(this.solarPanelsUrl, this.headers)
-          .map(response => <SolarPanel>response.json())
-          .share()
-          .catch(this.handleError)
-        );
+    return this.http.get(this.solarPanelsUrl, this.headers)
+        .map(response => <SolarPanel>response.json())
+        .share()
+        .catch(this.handleError);
   }
 
   private handleError(error:any) {

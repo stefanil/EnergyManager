@@ -25,6 +25,24 @@ import {SolarPanelsService} from './solar-panels-service';
         <span class="badge">{{monitoringData.solarPanel.name}}</span>
       </li>
     </ul>
+
+
+
+    <table class="table table-striped">
+      <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Color</th>
+        <th>Monitor</th>
+      </tr>
+      <tr *ngFor="let solarPanel of solarPanels">
+        <td>{{solarPanel.id}}</td>
+        <td>{{solarPanel.name}}</td>
+        <td>TODO</td>
+        <td><input type="checkbox" value=""></td>
+      </tr>
+    </table>
+
     <monitoring-data [monitoringData]="selectedMonitoringData">
     </monitoring-data>
     `,
