@@ -39,12 +39,12 @@ public class SolarPanelsResourceTest {
   @Before
   public void setUp() throws Exception {
     final Client client = resources.client();
-    this.client = new SolarPanelsResourceClient(client, -1);
+    this.client = new SolarPanelsResourceClient(client, SolarPanelsResourceClient.NO_LOCAL_PORT_FOR_RESOURCE_TESTS);
   }
 
   @Test
   public void solarPanelShouldBeCreated() throws Exception {
-    final SolarPanel solarPanel = new SolarPanel("SolarPanel_0_0");
+    final SolarPanel solarPanel = new SolarPanel(null, "SolarPanel_0_0");
 
     client.createSolarPanel(solarPanel, Response.class, response -> {
       assertThat(response.getStatusInfo()).isEqualTo(Status.OK);
@@ -56,7 +56,7 @@ public class SolarPanelsResourceTest {
   public void aSolarPanelShouldBeMonitored() throws Exception {
     final int id = 0;
     final int days = 3;
-    final SolarPanel solarPanel = new SolarPanel("aPanel");
+    final SolarPanel solarPanel = new SolarPanel((long) id, "aPanel");
     when(solarPanelDao.isMonitored(id)).thenReturn(true);
     when(solarPanelDao.generateMonitoringData(id, days))
         .thenReturn(new MonitoringData(solarPanel, newArrayList()));

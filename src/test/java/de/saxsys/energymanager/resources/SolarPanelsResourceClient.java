@@ -15,6 +15,8 @@ import javax.ws.rs.core.MediaType;
  */
 public class SolarPanelsResourceClient extends JerseyClient {
 
+  public final static int NO_LOCAL_PORT_FOR_RESOURCE_TESTS = -1;
+
   private final static String BASE_PATH = "/solarPanels";
 
   private final Client client;

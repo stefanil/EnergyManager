@@ -53,7 +53,7 @@ public class SolarPanelsIT {
   public void step01ASolarPanelShouldBeCreated() throws Exception {
     assertThat(DbUtil.countCustomers(databaseConfiguration)).isZero();
 
-    CLIENT.createSolarPanel(new SolarPanel("aPanel"), Response.class, response -> {
+    CLIENT.createSolarPanel(new SolarPanel(null, "aPanel"), Response.class, response -> {
       assertThat(response.getStatusInfo()).isEqualTo(Status.OK);
       assertThat(DbUtil.countCustomers(databaseConfiguration)).isEqualTo(1);
     });
@@ -61,9 +61,10 @@ public class SolarPanelsIT {
 
   @Test
   public void step02ASolarPanelShouldBeMonitored() throws Exception {
-    final SolarPanel solarPanel = new SolarPanel("aPanel");
+    final int id = 1;
+    final SolarPanel solarPanel = new SolarPanel((long) id, "aPanel");
 
-    CLIENT.retrieveMonitoringData(1, 3, MonitoringData.class, monitoringData -> {
+    CLIENT.retrieveMonitoringData(id, 3, MonitoringData.class, monitoringData -> {
       assertThat(monitoringData).isNotNull();
       assertThat(monitoringData.getSolarPanel()).isEqualTo(solarPanel);
     });
