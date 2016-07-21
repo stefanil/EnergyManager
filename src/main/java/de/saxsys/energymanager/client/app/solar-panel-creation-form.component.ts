@@ -30,7 +30,7 @@ export class SolarPanelCreationFormComponent implements OnInit {
         this.newSolarPanel();
       },
       error => {
-        this.addAlert(`Fehler.`, "error");
+        this.addAlert(`An error occurred while creation.`, "error");
       }
     );
 

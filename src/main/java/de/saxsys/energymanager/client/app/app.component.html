@@ -2,23 +2,27 @@
   <h1>{{title}}</h1>
   <h2>All Solar Panels</h2>
 
-  <table class="table table-striped">
-    <tr>
-      <th>#</th>
-      <th>Name</th>
-      <th>Color</th>
-      <th>Monitor</th>
-    </tr>
-    <tr *ngFor="let solarPanel of solarPanels">
-      <td>{{solarPanel.id}}</td>
-      <td>{{solarPanel.name}}</td>
-      <td>TODO</td>
-      <td><input type="checkbox" value="" (click)="showMonitoringData(solarPanel)" />
-    </tr>
-  </table>
+  <form>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Monitor</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let solarPanel of solarPanels">
+          <td>{{solarPanel.id}}</td>
+          <td>{{solarPanel.name}}</td>
+          <td><input type="radio" name="monitor" (click)="showMonitoringData(solarPanel)" />
+        </tr>
+      </tbody>
+    </table>
+  </form>
 
   <solar-panel-creation-form></solar-panel-creation-form>
 
-  <monitoring-data [solarPanelId]="selectedSolarPanelId">
+  <monitoring-data [solarPanel]="selectedSolarPanel">
   </monitoring-data>
 </div>

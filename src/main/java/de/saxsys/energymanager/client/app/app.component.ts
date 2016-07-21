@@ -22,7 +22,7 @@ import {SolarPanelsService} from './solar-panels-service';
 export class AppComponent {
   title = 'Distributed Energy Management'
   selectedMonitoringData:MonitoringData;
-  selectedSolarPanelId:number;
+  selectedSolarPanel:SolarPanel;
   solarPanels:SolarPanel[];
   error:any;
 
@@ -42,7 +42,7 @@ export class AppComponent {
     );
   }
 
-  showMonitoringData(solarPanel: SolarPanel) {
-    this.selectedSolarPanelId = solarPanel.id;
+  showMonitoringData(solarPanel:SolarPanel) {
+    this.selectedSolarPanel = solarPanel;
   }
 }

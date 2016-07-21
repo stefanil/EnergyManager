@@ -2,23 +2,33 @@
  *  details
  */
 import { Component, Input, OnChanges, SimpleChange, SimpleChanges } from '@angular/core';
-
+import {NgForm}    from '@angular/forms';
 import {CORE_DIRECTIVES, FORM_DIRECTIVES, NgClass} from '@angular/common';
+
 import {CHART_DIRECTIVES} from 'ng2-charts';
 
+import {SolarPanel} from './solar-panel';
 import {MonitoringData, MonitoringEntry} from './monitoring-data';
-import {MonitoringDataInput} from './monitoring-data-input';
 import {SolarPanelsService} from './solar-panels-service';
 
 @Component({
   selector: 'monitoring-data',
   template: `
-    <div *ngIf="solarPanelId">
+    <div *ngIf="solarPanel">
       <h2>Monitoring Data</h2>
-      <div>
-        <label>Days: </label>
-        <input [(ngModel)]="monitoringDataInput.days" placeholder="days">
-      </div>
+      <!-- <div class="row"> -->
+          <form class="form-inline" #daysForm="ngForm">
+            <div class="form-group">
+              <input placeholder="days" class="form-control" name="days" required
+                  [(ngModel)]="days" (ngModelChange)="showMonitoringData(solarPanel)"
+                  #fdays="ngModel">
+            </div>
+            <div [hidden]="fdays.valid" class="alert alert-danger">
+              Amount of days is required
+            </div>
+          </form>
+
+      <!-- </div> -->
       <base-chart class="chart"
           [datasets]="lineChartData"
           [labels]="lineChartLabels"
@@ -30,16 +40,13 @@ import {SolarPanelsService} from './solar-panels-service';
     </div>
     `,
     directives: [CHART_DIRECTIVES, NgClass, CORE_DIRECTIVES, FORM_DIRECTIVES],
-    inputs:['solarPanelId']
+    inputs:['solarPanel']
 })
 export class MonitoringDataComponent implements OnChanges {
 
-  @Input() solarPanelId:number;
+  @Input() solarPanel:SolarPanel;
 
-  monitoringDataInput: MonitoringDataInput = {
-    id: 1,
-    days: 3
-  }
+  days:number = 3;
   lineChartData:Array<any>;
   lineChartLabels:Array<any>;
   lineChartOptions:any = {
@@ -63,29 +70,31 @@ export class MonitoringDataComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    var solarPanelIdChange = changes['solarPanelId'];
-    if(solarPanelIdChange != null && solarPanelIdChange.currentValue != null) {
-      this.loadMonitoringData(solarPanelIdChange.currentValue);
+    var solarPanelChange = changes['solarPanel'];
+    if(solarPanelChange != null && solarPanelChange.currentValue != null) {
+      this.showMonitoringData(solarPanelChange.currentValue);
     }
   }
 
-  loadMonitoringData(id:number) {
-    this.solarPanelsService.getMonitoringData(id, 3).subscribe(
-        (monitoringData:MonitoringData) => {
-          this.lineChartLabels = monitoringData.entries
-              .map((entry, index) => index)
-              .reverse();
-          this.lineChartData = [
-            {
-              data: monitoringData.entries
-                        .map(entry => entry.generatorPower)
-                        .reverse(),
-              label: monitoringData.solarPanel.name
-            }
-          ];
-        }, error => {
-          console.log(error)
-        }
-    );
+  showMonitoringData(solarPanel:SolarPanel) {
+    if(this.days) {
+      this.solarPanelsService.getMonitoringData(solarPanel.id, this.days).subscribe(
+          (monitoringData:MonitoringData) => {
+            this.lineChartLabels = monitoringData.entries
+                .map((entry, index) => index)
+                .reverse();
+            this.lineChartData = [
+              {
+                data: monitoringData.entries
+                          .map(entry => entry.generatorPower)
+                          .reverse(),
+                label: monitoringData.solarPanel.name
+              }
+            ];
+          }, error => {
+            console.log(error)
+          }
+      );
+    }
   }
 }
