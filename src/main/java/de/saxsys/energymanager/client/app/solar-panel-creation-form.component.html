@@ -1,20 +1,23 @@
-<form class="form-inline" *ngIf="active" (ngSubmit)="onSubmit()"
-    #solarPanelCreationForm="ngForm">
-    <!-- (ngSubmit)="onSubmit()" -->
-    <!-- action="solarPanels" target="_self" -->
-  <div class="form-group">
-    <input type="text" class="form-control" placeholder="Solar Panel Name"
-        required [(ngModel)]="model.name" name="name" #name="ngModel">
+<div class="row">
+  <div class="col-md-12">
+    <form class="form-inline" *ngIf="active" (ngSubmit)="onSubmit()"
+        #solarPanelCreationForm="ngForm">
+      <div class="form-group">
+        <input type="text" class="form-control" placeholder="Solar Panel Name"
+            required [(ngModel)]="model.name" name="name" #name="ngModel">
+      </div>
+      <button class="btn btn-default" type="submit"
+          [disabled]="!solarPanelCreationForm.form.valid">
+        Add
+      </button>
+      <alert *ngFor="let alert of alerts;let i = index" [type]="alert.type"
+          dismissible="true" [dismissOnTimeout]="alert.dismissOnTimeout"
+          (close)="closeAlert(i)">
+        {{ alert?.msg }}
+      </alert>
+      <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+        Name is required
+      </div>
+    </form>
   </div>
-  <button class="btn btn-default" type="submit"
-      [disabled]="!solarPanelCreationForm.form.valid">
-      <!-- (click)="newSolarPanel()" -->
-    Add
-  </button>
-  <alert *ngFor="let alert of alerts;let i = index" [type]="alert.type" dismissible="true" [dismissOnTimeout]="alert.dismissOnTimeout" (close)="closeAlert(i)">
-   {{ alert?.msg }}
-  </alert>
-  <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
-    Name is required
-  </div>
-</form>
+</div>
