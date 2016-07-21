@@ -1,0 +1,31 @@
+<div class="container">
+  <h1>{{title}}</h1>
+  <h2>All Solar Panels</h2>
+  <ul class="monitoringData">
+    <li *ngFor="let monitoringData of allMonitoringData"
+        [class.selected]="monitoringData === selectedMonitoringData"
+        (click)="onSelect(monitoringData)">
+      <span class="badge">{{monitoringData.solarPanel.name}}</span>
+    </li>
+  </ul>
+
+  <table class="table table-striped">
+    <tr>
+      <th>#</th>
+      <th>Name</th>
+      <th>Color</th>
+      <th>Monitor</th>
+    </tr>
+    <tr *ngFor="let solarPanel of solarPanels">
+      <td>{{solarPanel.id}}</td>
+      <td>{{solarPanel.name}}</td>
+      <td>TODO</td>
+      <td><input type="checkbox" value=""></td>
+    </tr>
+  </table>
+
+  <solar-panel-creation-form></solar-panel-creation-form>
+
+  <monitoring-data [monitoringData]="selectedMonitoringData">
+  </monitoring-data>
+</div>
