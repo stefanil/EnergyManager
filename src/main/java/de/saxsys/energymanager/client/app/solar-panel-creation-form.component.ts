@@ -1,6 +1,6 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {NgForm}    from '@angular/forms';
-import { AlertComponent } from 'ng2-bootstrap/components/alert';
+import {AlertComponent} from 'ng2-bootstrap/components/alert';
 
 import {SolarPanel}    from './solar-panel';
 import {SolarPanelsService} from './solar-panels-service';
@@ -8,13 +8,12 @@ import {SolarPanelsService} from './solar-panels-service';
 @Component({
   selector: 'solar-panel-creation-form',
   templateUrl: 'app/solar-panel-creation-form.component.html',
-  providers: [SolarPanelsService],
   directives: [AlertComponent]
 })
-export class SolarPanelCreationFormComponent {
+export class SolarPanelCreationFormComponent implements OnInit {
   model:SolarPanel;
   active = true;
-  alerts:Array<Object> = [ ];
+  alerts:Array<Object> = [];
 
   constructor(private solarPanelsService: SolarPanelsService) {
   }
@@ -27,7 +26,8 @@ export class SolarPanelCreationFormComponent {
     this.solarPanelsService.createSolarPanel(this.model).subscribe(
       repsonse => {
         this.addAlert("Solar Panel creation successful.", "success", 3000);
-        this.solarPanelsService.getSolarPanels();
+        this.solarPanelsService.onSolarPanelsChange.emit(true);
+        this.newSolarPanel();
       },
       error => {
         this.addAlert(`Fehler.`, "error");
@@ -41,9 +41,6 @@ export class SolarPanelCreationFormComponent {
     this.active = false;
     setTimeout(() => this.active = true, 0);
   }
-
-  // TODO: Remove this when we're done
-  get diagnostic() { return JSON.stringify(this.model); }
 
   closeAlert(i:number) {
     this.alerts.splice(i, 1);

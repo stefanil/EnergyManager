@@ -3,6 +3,7 @@
  */
 import {Component} from '@angular/core';
 import {HTTP_PROVIDERS} from '@angular/http';
+import 'rxjs/Rx';
 
 import {SolarPanel} from './solar-panel';
 import {MonitoringData} from './monitoring-data';
@@ -117,13 +118,15 @@ export class AppComponent {
         .then(monitoringData => this.allMonitoringData = monitoringData);
 
     this.getSolarPanels();
+    this.solarPanelsService.onSolarPanelsChange
+        .subscribe(() => this.getSolarPanels());
   }
 
   getSolarPanels() {
-    this.solarPanelsService.getSolarPanels()
-      .subscribe(solarPanels => {
-          this.solarPanels = solarPanels;
-        }, error => this.error = error);
+    this.solarPanelsService.getSolarPanels().subscribe(
+        solarPanels => {this.solarPanels = solarPanels;},
+        error => {this.error = error;}
+    );
   }
 
   onSelect(monitoringData: MonitoringData) {

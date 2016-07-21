@@ -1,12 +1,16 @@
 import { Injectable } from '@angular/core';
+import {EventEmitter} from '@angular/core';
 import {Http, Headers} from "@angular/http";
 import 'rxjs/Rx';
 import {Observable} from 'rxjs/Observable';
+
 import {SolarPanel} from './solar-panel';
 import {ALL_MONITORING_DATA} from './monitoring-data';
 
 @Injectable()
 export class SolarPanelsService {
+
+  onSolarPanelsChange:EventEmitter<boolean> = new EventEmitter<boolean>();
 
   private headers = {
     headers : new Headers({
@@ -25,7 +29,6 @@ export class SolarPanelsService {
 
   createSolarPanel(solarPanel: SolarPanel) {
     return this.http.post(this.solarPanelsUrl, solarPanel, this.headers)
-        //.map(response => <SolarPanel>response.json())
         .share()
         .catch(this.handleError);
   }
