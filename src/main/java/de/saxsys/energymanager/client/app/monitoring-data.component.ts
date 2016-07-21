@@ -17,14 +17,14 @@ import {SolarPanelsService} from './solar-panels-service';
     <div *ngIf="solarPanel">
       <h2>Monitoring Data</h2>
       <!-- <div class="row"> -->
-          <form class="form-inline" #daysForm="ngForm">
+          <form class="form" #daysForm="ngForm">
             <div class="form-group">
               <input placeholder="days" class="form-control" name="days" required
                   [(ngModel)]="days" (ngModelChange)="showMonitoringData(solarPanel)"
                   #fdays="ngModel">
-            </div>
-            <div [hidden]="fdays.valid" class="alert alert-danger">
-              Amount of days is required
+              <div [hidden]="fdays.valid" class="alert alert-danger">
+                Amount of days is required
+              </div>
             </div>
           </form>
 
