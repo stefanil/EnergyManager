@@ -7,44 +7,47 @@ import {HTTP_PROVIDERS} from '@angular/http';
 import {SolarPanel} from './solar-panel';
 import {MonitoringData} from './monitoring-data';
 
+import {SolarPanelCreationFormComponent} from './solar-panel-creation-form.component';
 import {MonitoringDataComponent} from './monitoring-data.component';
 import {SolarPanelsService} from './solar-panels-service';
 
 @Component({
   selector: 'my-app',
   template: `
-    <h1>{{title}}</h1>
-    <h2>All Solar Panels</h2>
-    <ul class="monitoringData">
-      <!-- template definition with *ngFor -->
-          <!-- style class is only applied if selected-->
-          <!-- event binding to click event -->
-      <li *ngFor="let monitoringData of allMonitoringData"
-          [class.selected]="monitoringData === selectedMonitoringData"
-          (click)="onSelect(monitoringData)">
-        <span class="badge">{{monitoringData.solarPanel.name}}</span>
-      </li>
-    </ul>
+    <div class="container">
+      <h1>{{title}}</h1>
+      <h2>All Solar Panels</h2>
+      <ul class="monitoringData">
+        <!-- template definition with *ngFor -->
+            <!-- style class is only applied if selected-->
+            <!-- event binding to click event -->
+        <li *ngFor="let monitoringData of allMonitoringData"
+            [class.selected]="monitoringData === selectedMonitoringData"
+            (click)="onSelect(monitoringData)">
+          <span class="badge">{{monitoringData.solarPanel.name}}</span>
+        </li>
+      </ul>
 
+      <table class="table table-striped">
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Color</th>
+          <th>Monitor</th>
+        </tr>
+        <tr *ngFor="let solarPanel of solarPanels">
+          <td>{{solarPanel.id}}</td>
+          <td>{{solarPanel.name}}</td>
+          <td>TODO</td>
+          <td><input type="checkbox" value=""></td>
+        </tr>
+      </table>
 
+      <solar-panel-creation-form></solar-panel-creation-form>
 
-    <table class="table table-striped">
-      <tr>
-        <th>#</th>
-        <th>Name</th>
-        <th>Color</th>
-        <th>Monitor</th>
-      </tr>
-      <tr *ngFor="let solarPanel of solarPanels">
-        <td>{{solarPanel.id}}</td>
-        <td>{{solarPanel.name}}</td>
-        <td>TODO</td>
-        <td><input type="checkbox" value=""></td>
-      </tr>
-    </table>
-
-    <monitoring-data [monitoringData]="selectedMonitoringData">
-    </monitoring-data>
+      <monitoring-data [monitoringData]="selectedMonitoringData">
+      </monitoring-data>
+    </div>
     `,
     styles: [`
     .selected {
@@ -95,7 +98,7 @@ import {SolarPanelsService} from './solar-panels-service';
     border-radius: 4px 0 0 4px;
   }
   `],
-  directives: [MonitoringDataComponent],
+  directives: [SolarPanelCreationFormComponent, MonitoringDataComponent],
   providers: [SolarPanelsService, HTTP_PROVIDERS]
 })
 export class AppComponent {
@@ -118,11 +121,9 @@ export class AppComponent {
 
   getSolarPanels() {
     this.solarPanelsService.getSolarPanels()
-      .subscribe(solarPanels =>
-        {
+      .subscribe(solarPanels => {
           this.solarPanels = solarPanels;
-        },
-        error => this.error = error);
+        }, error => this.error = error);
   }
 
   onSelect(monitoringData: MonitoringData) {

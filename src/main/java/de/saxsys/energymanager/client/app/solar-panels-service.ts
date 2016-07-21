@@ -23,9 +23,16 @@ export class SolarPanelsService {
     return Promise.resolve(ALL_MONITORING_DATA);
   }
 
+  createSolarPanel(solarPanel: SolarPanel) {
+    return this.http.post(this.solarPanelsUrl, solarPanel, this.headers)
+        //.map(response => <SolarPanel>response.json())
+        .share()
+        .catch(this.handleError);
+  }
+
   getSolarPanels() {
     return this.http.get(this.solarPanelsUrl, this.headers)
-        .map(response => <SolarPanel>response.json())
+        .map(response => <SolarPanel[]>response.json())
         .share()
         .catch(this.handleError);
   }
