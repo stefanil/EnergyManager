@@ -21,8 +21,8 @@ import {SolarPanelsService} from './solar-panels-service';
 })
 export class AppComponent {
   title = 'Distributed Energy Management'
-  allMonitoringData:MonitoringData[];
   selectedMonitoringData:MonitoringData;
+  selectedSolarPanelId:number;
   solarPanels:SolarPanel[];
   error:any;
 
@@ -30,9 +30,6 @@ export class AppComponent {
   }
 
   ngOnInit() {
-    this.solarPanelsService.getAllMonitoringData()
-        .then(monitoringData => this.allMonitoringData = monitoringData);
-
     this.getSolarPanels();
     this.solarPanelsService.onSolarPanelsChange
         .subscribe(() => this.getSolarPanels());
@@ -45,7 +42,7 @@ export class AppComponent {
     );
   }
 
-  onSelect(monitoringData: MonitoringData) {
-    this.selectedMonitoringData = monitoringData;
+  showMonitoringData(solarPanel: SolarPanel) {
+    this.selectedSolarPanelId = solarPanel.id;
   }
 }

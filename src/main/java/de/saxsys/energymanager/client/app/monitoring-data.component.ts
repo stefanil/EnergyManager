@@ -6,18 +6,15 @@ import { Component, Input, OnChanges, SimpleChange, SimpleChanges } from '@angul
 import {CORE_DIRECTIVES, FORM_DIRECTIVES, NgClass} from '@angular/common';
 import {CHART_DIRECTIVES} from 'ng2-charts';
 
-import {MonitoringData, ALL_MONITORING_DATA} from './monitoring-data';
+import {MonitoringData, MonitoringEntry} from './monitoring-data';
 import {MonitoringDataInput} from './monitoring-data-input';
+import {SolarPanelsService} from './solar-panels-service';
 
 @Component({
   selector: 'monitoring-data',
   template: `
-    <div *ngIf="monitoringData">
+    <div *ngIf="solarPanelId">
       <h2>Monitoring Data</h2>
-      <div>
-        <label>ID: </label>
-        <input [(ngModel)]="monitoringDataInput.id" placeholder="days">
-      </div>
       <div>
         <label>Days: </label>
         <input [(ngModel)]="monitoringDataInput.days" placeholder="days">
@@ -33,12 +30,12 @@ import {MonitoringDataInput} from './monitoring-data-input';
     </div>
     `,
     directives: [CHART_DIRECTIVES, NgClass, CORE_DIRECTIVES, FORM_DIRECTIVES],
-    inputs:['monitoringData']
+    inputs:['solarPanelId']
 })
-export class MonitoringDataComponent
-implements OnChanges
-{
-  @Input()  monitoringData:MonitoringData;
+export class MonitoringDataComponent implements OnChanges {
+
+  @Input() solarPanelId:number;
+
   monitoringDataInput: MonitoringDataInput = {
     id: 1,
     days: 3
@@ -62,18 +59,33 @@ implements OnChanges
   lineChartLegend:boolean = true;
   lineChartType:string = 'line';
 
+  constructor(private solarPanelsService: SolarPanelsService) {
+  }
+
   ngOnChanges(changes: SimpleChanges) {
-    var monitoringDataChange = changes['monitoringData'];
-    if(monitoringDataChange != null && monitoringDataChange.currentValue) {
-      var curMonitoringData:MonitoringData = monitoringDataChange.currentValue;
-      this.lineChartLabels = curMonitoringData.entries
-          .map((entry, index) => index);
-      this.lineChartData = [
-        {
-          data: curMonitoringData.entries,
-          label: curMonitoringData.solarPanel.name
-        }
-      ];
+    var solarPanelIdChange = changes['solarPanelId'];
+    if(solarPanelIdChange != null && solarPanelIdChange.currentValue != null) {
+      this.loadMonitoringData(solarPanelIdChange.currentValue);
     }
+  }
+
+  loadMonitoringData(id:number) {
+    this.solarPanelsService.getMonitoringData(id, 3).subscribe(
+        (monitoringData:MonitoringData) => {
+          this.lineChartLabels = monitoringData.entries
+              .map((entry, index) => index)
+              .reverse();
+          this.lineChartData = [
+            {
+              data: monitoringData.entries
+                        .map(entry => entry.generatorPower)
+                        .reverse(),
+              label: monitoringData.solarPanel.name
+            }
+          ];
+        }, error => {
+          console.log(error)
+        }
+    );
   }
 }

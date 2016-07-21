@@ -5,7 +5,7 @@ import 'rxjs/Rx';
 import {Observable} from 'rxjs/Observable';
 
 import {SolarPanel} from './solar-panel';
-import {ALL_MONITORING_DATA} from './monitoring-data';
+import {MonitoringData} from './monitoring-data';
 
 @Injectable()
 export class SolarPanelsService {
@@ -23,10 +23,6 @@ export class SolarPanelsService {
   constructor(private http:Http) {
   }
 
-  getAllMonitoringData() {
-    return Promise.resolve(ALL_MONITORING_DATA);
-  }
-
   createSolarPanel(solarPanel: SolarPanel) {
     return this.http.post(this.solarPanelsUrl, solarPanel, this.headers)
         .share()
@@ -37,6 +33,14 @@ export class SolarPanelsService {
     return this.http.get(this.solarPanelsUrl, this.headers)
         .map(response => <SolarPanel[]>response.json())
         .share()
+        .catch(this.handleError);
+  }
+
+  getMonitoringData(id:number, days:number) {
+    return this.http.get(this.solarPanelsUrl + "/" + id + "/" + days, this.headers)
+        .map(response => {
+          return <MonitoringData>response.json();
+        }).share()
         .catch(this.handleError);
   }
 
