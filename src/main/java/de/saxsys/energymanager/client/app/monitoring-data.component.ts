@@ -13,34 +13,9 @@ import {SolarPanelsService} from './solar-panels-service';
 
 @Component({
   selector: 'monitoring-data',
-  template: `
-    <div *ngIf="solarPanel">
-      <h2>Monitoring Data</h2>
-      <!-- <div class="row"> -->
-          <form class="form" #daysForm="ngForm">
-            <div class="form-group">
-              <input placeholder="days" class="form-control" name="days" required
-                  [(ngModel)]="days" (ngModelChange)="showMonitoringData(solarPanel)"
-                  #fdays="ngModel">
-              <div [hidden]="fdays.valid" class="alert alert-danger">
-                Amount of days is required
-              </div>
-            </div>
-          </form>
-
-      <!-- </div> -->
-      <base-chart class="chart"
-          [datasets]="lineChartData"
-          [labels]="lineChartLabels"
-          [options]="lineChartOptions"
-          [colors]="lineChartColours"
-          [legend]="lineChartLegend"
-          [chartType]="lineChartType">
-      </base-chart>
-    </div>
-    `,
-    directives: [CHART_DIRECTIVES, NgClass, CORE_DIRECTIVES, FORM_DIRECTIVES],
-    inputs:['solarPanel']
+  templateUrl: 'app/monitoring-data.component.html',
+  directives: [CHART_DIRECTIVES, NgClass, CORE_DIRECTIVES, FORM_DIRECTIVES],
+  inputs:['solarPanel']
 })
 export class MonitoringDataComponent implements OnChanges {
 
