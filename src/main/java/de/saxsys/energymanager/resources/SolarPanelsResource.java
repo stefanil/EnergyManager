@@ -11,6 +11,8 @@ import com.google.inject.persist.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -50,7 +52,7 @@ public class SolarPanelsResource {
   @GET
   @Path("{id}/{days}")
   @Transactional
-  public MonitoringData retrieveMonitoringData(@PathParam("id") int id, @PathParam("days") int days) {
+  public MonitoringData getMonitoringData(@PathParam("id") int id, @PathParam("days") int days) {
     LOG.info("Getting monitoring data for solar panel with index {}.", id);
 
     if (!solarPanelDao.isMonitored(id)) {
@@ -67,4 +69,8 @@ public class SolarPanelsResource {
     return solarPanelDao.generateMonitoringData(id, days);
   }
 
+  @GET
+  public List<SolarPanel> getSolarPanels() {
+    return solarPanelDao.findAllSolarPanels();
+  }
 }

@@ -15,6 +15,8 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import java.util.List;
+
 import javax.ws.rs.client.Client;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -39,12 +41,12 @@ public class SolarPanelsResourceTest {
   @Before
   public void setUp() throws Exception {
     final Client client = resources.client();
-    this.client = new SolarPanelsResourceClient(client, -1);
+    this.client = new SolarPanelsResourceClient(client, SolarPanelsResourceClient.NO_LOCAL_PORT_FOR_RESOURCE_TESTS);
   }
 
   @Test
   public void solarPanelShouldBeCreated() throws Exception {
-    final SolarPanel solarPanel = new SolarPanel("SolarPanel_0_0");
+    final SolarPanel solarPanel = new SolarPanel(null, "SolarPanel_0_0");
 
     client.createSolarPanel(solarPanel, Response.class, response -> {
       assertThat(response.getStatusInfo()).isEqualTo(Status.OK);
@@ -56,12 +58,12 @@ public class SolarPanelsResourceTest {
   public void aSolarPanelShouldBeMonitored() throws Exception {
     final int id = 0;
     final int days = 3;
-    final SolarPanel solarPanel = new SolarPanel("aPanel");
+    final SolarPanel solarPanel = new SolarPanel((long) id, "aPanel");
     when(solarPanelDao.isMonitored(id)).thenReturn(true);
     when(solarPanelDao.generateMonitoringData(id, days))
         .thenReturn(new MonitoringData(solarPanel, newArrayList()));
 
-    client.retrieveMonitoringData(id, days, MonitoringData.class, monitoringData -> {
+    client.getMonitoringData(id, days, MonitoringData.class, monitoringData -> {
       assertThat(monitoringData).isNotNull();
       assertThat(monitoringData.getSolarPanel()).isEqualTo(solarPanel);
       assertThat(monitoringData.getEntries()).isEmpty();
@@ -72,7 +74,7 @@ public class SolarPanelsResourceTest {
 
   @Test
   public void solarPanelMonitoringThrowsNotFoundWhenSolarPanelDoesNotExist() throws Exception {
-    client.retrieveMonitoringData(0, 3, Response.class, response ->
+    client.getMonitoringData(0, 3, Response.class, response ->
         assertThat(response.getStatusInfo()).isEqualTo(Status.NOT_FOUND));
   }
 
@@ -81,8 +83,17 @@ public class SolarPanelsResourceTest {
     final int id = 0;
     when(solarPanelDao.isMonitored(id)).thenReturn(true);
 
-    client.retrieveMonitoringData(id, -1, Response.class, response ->
+    client.getMonitoringData(id, -1, Response.class, response ->
         assertThat(response.getStatusInfo()).isEqualTo(Status.BAD_REQUEST));
   }
 
+  @Test
+  public void shouldGetSolarPanels() throws Exception {
+    final List<SolarPanel> solarPanels = newArrayList(
+        new SolarPanel(0L, "panel0"), new SolarPanel(1L, "panel1"), new SolarPanel(2L, "panel2")
+    );
+    when(solarPanelDao.findAllSolarPanels()).thenReturn(solarPanels);
+
+    client.getSolarPanels(allSolarPanels -> assertThat(allSolarPanels).isEqualTo(solarPanels));
+  }
 }

@@ -11,6 +11,8 @@ import javax.validation.constraints.NotNull;
 
 public class SolarPanel {
 
+  private Long id;
+
   @NotNull
   @NotEmpty
   private String name;
@@ -18,8 +20,19 @@ public class SolarPanel {
   public SolarPanel() {
   }
 
-  public SolarPanel(@JsonProperty("name") final String name) {
+  public SolarPanel(
+      @JsonProperty("id") final Long id,
+      @JsonProperty("name") final String name) {
+    this.id = id;
     this.name = name;
+  }
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(final Long id) {
+    this.id = id;
   }
 
   public String getName() {
@@ -39,19 +52,20 @@ public class SolarPanel {
       return false;
     }
     final SolarPanel that = (SolarPanel) o;
-    return Objects.equals(name, that.name);
+    return Objects.equals(id, that.id) &&
+        Objects.equals(name, that.name);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name);
+    return Objects.hash(id, name);
   }
 
   @Override
   public String toString() {
     return MoreObjects.toStringHelper(this)
+        .add("id", id)
         .add("name", name)
         .toString();
   }
-
 }

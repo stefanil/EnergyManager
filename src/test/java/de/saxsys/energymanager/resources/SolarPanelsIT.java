@@ -2,11 +2,11 @@ package de.saxsys.energymanager.resources;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import de.saxsys.energymanager.configuration.DatabaseConfiguration;
 import de.saxsys.energymanager.EnergyManagerApplication;
-import de.saxsys.energymanager.configuration.EnergyManagerConfiguration;
 import de.saxsys.energymanager.api.MonitoringData;
 import de.saxsys.energymanager.api.SolarPanel;
+import de.saxsys.energymanager.configuration.DatabaseConfiguration;
+import de.saxsys.energymanager.configuration.EnergyManagerConfiguration;
 import de.saxsys.energymanager.util.DbUtil;
 
 import org.glassfish.jersey.client.ClientProperties;
@@ -53,7 +53,7 @@ public class SolarPanelsIT {
   public void step01ASolarPanelShouldBeCreated() throws Exception {
     assertThat(DbUtil.countCustomers(databaseConfiguration)).isZero();
 
-    CLIENT.createSolarPanel(new SolarPanel("aPanel"), Response.class, response -> {
+    CLIENT.createSolarPanel(new SolarPanel(null, "aPanel"), Response.class, response -> {
       assertThat(response.getStatusInfo()).isEqualTo(Status.OK);
       assertThat(DbUtil.countCustomers(databaseConfiguration)).isEqualTo(1);
     });
@@ -61,9 +61,10 @@ public class SolarPanelsIT {
 
   @Test
   public void step02ASolarPanelShouldBeMonitored() throws Exception {
-    final SolarPanel solarPanel = new SolarPanel("aPanel");
+    final int id = 1;
+    final SolarPanel solarPanel = new SolarPanel((long) id, "aPanel");
 
-    CLIENT.retrieveMonitoringData(1, 3, MonitoringData.class, monitoringData -> {
+    CLIENT.getMonitoringData(id, 3, MonitoringData.class, monitoringData -> {
       assertThat(monitoringData).isNotNull();
       assertThat(monitoringData.getSolarPanel()).isEqualTo(solarPanel);
     });
@@ -71,13 +72,21 @@ public class SolarPanelsIT {
 
   @Test
   public void step03ASolarPanelMonitoringThrowsNotFoundWhenSolarPanelDoesNotExist() throws Exception {
-    CLIENT.retrieveMonitoringData(0, 3, Response.class, response ->
+    CLIENT.getMonitoringData(0, 3, Response.class, response ->
         assertThat(response.getStatusInfo()).isEqualTo(Status.NOT_FOUND));
   }
 
   @Test
   public void step04ASolarPanelMonitoringThrowsBadRequestWhenDaysIsANegativeNumber() throws Exception {
-    CLIENT.retrieveMonitoringData(1, -1, Response.class, response ->
+    CLIENT.getMonitoringData(1, -1, Response.class, response ->
         assertThat(response.getStatusInfo()).isEqualTo(Status.BAD_REQUEST));
+  }
+
+  @Test
+  public void step05ShouldGetSolarPanels() throws Exception {
+    CLIENT.getSolarPanels(solarPanels -> {
+      assertThat(solarPanels).hasSize(1);
+      assertThat(solarPanels.get(0)).isEqualTo(new SolarPanel(1L, "aPanel"));
+    });
   }
 }
