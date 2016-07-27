@@ -3,18 +3,13 @@ package de.saxsys.energymanager.api;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.MoreObjects;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
 import java.util.Objects;
-
-import javax.validation.constraints.NotNull;
 
 public class SolarPanel {
 
   private Long id;
 
-  @NotNull
-  @NotEmpty
+  // TODO II.ii.a.2
   private String name;
 
   public SolarPanel() {

@@ -1,8 +1,6 @@
 package de.saxsys.energymanager;
 
 import de.saxsys.energymanager.configuration.EnergyManagerConfiguration;
-import de.saxsys.energymanager.model.SolarPanelDao;
-import de.saxsys.energymanager.resources.SolarPanelsResource;
 
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
@@ -26,7 +24,7 @@ public class EnergyManagerApplication extends Application<EnergyManagerConfigura
 
   @Override
   public void run(final EnergyManagerConfiguration configuration, final Environment environment) {
-    environment.jersey().register(new SolarPanelsResource(SolarPanelDao.getInstance()));
+    // TODO II.ii.a.3
   }
 
 }
