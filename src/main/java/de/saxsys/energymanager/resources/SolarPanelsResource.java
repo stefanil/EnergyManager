@@ -5,8 +5,6 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import de.saxsys.energymanager.api.SolarPanel;
 import de.saxsys.energymanager.model.SolarPanelDao;
 
-import com.google.inject.persist.Transactional;
-
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
@@ -27,7 +25,6 @@ public class SolarPanelsResource {
   }
 
   @POST
-  @Transactional
   public Response createSolarPanel(@Valid @NotNull final SolarPanel solarPanel) {
     solarPanelDao.addSolarPanel(solarPanel);
     return Response.ok().build();
