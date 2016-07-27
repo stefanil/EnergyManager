@@ -18,7 +18,7 @@ public class MonitoringEntry {
 
   @Min(0)
   @Max(100)
-  private long generatorPower = 0;  // watts
+  private long generatorPower;  // watts
 
   public MonitoringEntry(
       @JsonProperty("generatorPower") final long generatorPower) {
