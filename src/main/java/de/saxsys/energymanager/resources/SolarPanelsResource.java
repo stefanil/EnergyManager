@@ -10,7 +10,6 @@ import com.google.inject.persist.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
@@ -28,7 +27,6 @@ public class SolarPanelsResource {
 
   private final SolarPanelDao solarPanelDao;
 
-  @Inject
   public SolarPanelsResource(final SolarPanelDao solarPanelDao) {
     this.solarPanelDao = solarPanelDao;
   }
