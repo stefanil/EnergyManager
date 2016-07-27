@@ -9,12 +9,13 @@ import static org.mockito.Mockito.when;
 
 import de.saxsys.energymanager.configuration.DatabaseConfiguration;
 import de.saxsys.energymanager.configuration.EnergyManagerConfiguration;
-import de.saxsys.energymanager.tasks.DbShutdownTask;
 import de.saxsys.energymanager.health.DatabaseHealthCheck;
 import de.saxsys.energymanager.resources.SolarPanelsResource;
+import de.saxsys.energymanager.tasks.DbShutdownTask;
 
 import com.codahale.metrics.health.HealthCheckRegistry;
 
+import org.eclipse.jetty.servlets.CrossOriginFilter;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -43,6 +44,7 @@ public class EnergyManagerApplicationTest {
   private final EnergyManagerConfiguration energyManagerConfiguration = new EnergyManagerConfiguration();
   private final ServletEnvironment servletEnvironment = mock(ServletEnvironment.class);
   private final Dynamic filterRegistration = mock(Dynamic.class);
+  private final Dynamic crossOriginFilter = mock(Dynamic.class);
 
   @Before
   public void setup() throws Exception {
@@ -55,6 +57,8 @@ public class EnergyManagerApplicationTest {
     when(environment.servlets()).thenReturn(servletEnvironment);
     when(servletEnvironment.addFilter(eq("persist-filter"), isA(Filter.class)))
         .thenReturn(filterRegistration);
+    when(servletEnvironment.addFilter(eq("CORS"), eq(CrossOriginFilter.class)))
+        .thenReturn(crossOriginFilter);
   }
 
   @Test
