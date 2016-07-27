@@ -4,12 +4,10 @@ import de.saxsys.energymanager.api.SolarPanel;
 
 import org.glassfish.jersey.client.JerseyClient;
 
-import java.util.List;
 import java.util.function.Consumer;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 
 /**
@@ -44,22 +42,5 @@ public class SolarPanelsResourceClient extends JerseyClient {
             .post(Entity.entity(solarPanel, MediaType.APPLICATION_JSON), responseType)
     );
   }
-
-  public <T> void getMonitoringData(final int solarPanelId, final int days, final Class<T> responseType,
-      final Consumer<T> postCondition) {
-    postCondition.accept(
-        client.target(baseUri + "/" + solarPanelId + "/" + days)
-            .request()
-            .get(responseType)
-    );
-  }
-
-  public void getSolarPanels(final Consumer<List<SolarPanel>> postCondition) {
-    postCondition.accept(
-        client.target(baseUri)
-            .request()
-            .get(new GenericType<List<SolarPanel>>(){
-            })
-    );
-  }
+  
 }
