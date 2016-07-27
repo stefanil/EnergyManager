@@ -7,9 +7,6 @@ import de.saxsys.energymanager.model.SolarPanelDao;
 
 import com.google.inject.persist.Transactional;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
@@ -22,8 +19,6 @@ import javax.ws.rs.core.Response;
 @Consumes(APPLICATION_JSON)
 @Produces(APPLICATION_JSON)
 public class SolarPanelsResource {
-
-  private static final Logger LOG = LoggerFactory.getLogger(SolarPanelsResource.class);
 
   private final SolarPanelDao solarPanelDao;
 

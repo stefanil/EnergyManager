@@ -42,5 +42,5 @@ public class SolarPanelsResourceClient extends JerseyClient {
             .post(Entity.entity(solarPanel, MediaType.APPLICATION_JSON), responseType)
     );
   }
-  
+
 }
