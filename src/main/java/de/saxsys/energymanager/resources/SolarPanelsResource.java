@@ -34,8 +34,6 @@ public class SolarPanelsResource {
   @POST
   @Transactional
   public Response createSolarPanel(@Valid @NotNull final SolarPanel solarPanel) {
-    LOG.debug("Creating the solar panel {}", solarPanel);
-
     solarPanelDao.addSolarPanel(solarPanel);
     return Response.ok().build();
   }
