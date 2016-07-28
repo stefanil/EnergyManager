@@ -65,7 +65,6 @@ public class SolarPanelsIT {
     final SolarPanel solarPanel = new SolarPanel((long) id, "aPanel");
 
     CLIENT.getMonitoringData(id, 3, MonitoringData.class, monitoringData -> {
-      assertThat(monitoringData).isNotNull();
       assertThat(monitoringData.getSolarPanel()).isEqualTo(solarPanel);
     });
   }
