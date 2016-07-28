@@ -44,7 +44,6 @@ public class SolarPanelsResourceTest {
     this.client = new SolarPanelsResourceClient(client, SolarPanelsResourceClient.NO_LOCAL_PORT_FOR_RESOURCE_TESTS);
   }
 
-  // II.ii.a.1
   @Test
   public void solarPanelShouldBeCreated() throws Exception {
     final SolarPanel solarPanel = new SolarPanel(null, "SolarPanel_0_0");
@@ -55,7 +54,6 @@ public class SolarPanelsResourceTest {
     });
   }
 
-  // II.ii.a.2
   @Test
   public void solarPanelNameShouldNotBeNull() throws Exception {
     final SolarPanel solarPanel = new SolarPanel(null, null);
@@ -64,8 +62,7 @@ public class SolarPanelsResourceTest {
       assertThat(response.getStatus()).isEqualTo(422);  // 422 .. unprocessable entity
     });
   }
-
-  // II.ii.a.2
+  
   @Test
   public void solarPanelNameShouldNotBeEmpty() throws Exception {
     final SolarPanel solarPanel = new SolarPanel(null, "");
