@@ -62,7 +62,7 @@ public class SolarPanelsResourceTest {
       assertThat(response.getStatus()).isEqualTo(422);  // 422 .. unprocessable entity
     });
   }
-  
+
   @Test
   public void solarPanelNameShouldNotBeEmpty() throws Exception {
     final SolarPanel solarPanel = new SolarPanel(null, "");
@@ -112,6 +112,9 @@ public class SolarPanelsResourceTest {
     );
     when(solarPanelDao.findAllSolarPanels()).thenReturn(solarPanels);
 
-    client.getSolarPanels(allSolarPanels -> assertThat(allSolarPanels).isEqualTo(solarPanels));
+    client.getSolarPanels(allSolarPanels -> {
+      assertThat(allSolarPanels).isEqualTo(solarPanels);
+      verify(solarPanelDao).findAllSolarPanels();
+    });
   }
 }
