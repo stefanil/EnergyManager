@@ -17,7 +17,6 @@ import org.junit.Test;
 
 import java.util.List;
 
-import javax.ws.rs.client.Client;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
@@ -40,8 +39,10 @@ public class SolarPanelsResourceTest {
 
   @Before
   public void setUp() throws Exception {
-    final Client client = resources.client();
-    this.client = new SolarPanelsResourceClient(client, SolarPanelsResourceClient.NO_LOCAL_PORT_FOR_RESOURCE_TESTS);
+    client = new SolarPanelsResourceClient(
+        resources.client(),
+        SolarPanelsResourceClient.NO_LOCAL_PORT_FOR_RESOURCE_TESTS
+    );
   }
 
   @Test
