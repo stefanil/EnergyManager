@@ -82,7 +82,6 @@ public class SolarPanelsResourceTest {
         .thenReturn(new MonitoringData(solarPanel, newArrayList()));
 
     client.getMonitoringData(id, days, MonitoringData.class, monitoringData -> {
-      assertThat(monitoringData).isNotNull();
       assertThat(monitoringData.getSolarPanel()).isEqualTo(solarPanel);
       assertThat(monitoringData.getEntries()).isEmpty();
       verify(solarPanelDao).isMonitored(id);
