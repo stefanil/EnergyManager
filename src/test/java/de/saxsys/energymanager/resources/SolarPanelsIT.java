@@ -1,26 +1,9 @@
 package de.saxsys.energymanager.resources;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import de.saxsys.energymanager.EnergyManagerApplication;
-import de.saxsys.energymanager.api.MonitoringData;
-import de.saxsys.energymanager.api.SolarPanel;
-import de.saxsys.energymanager.configuration.EnergyManagerConfiguration;
-
-import org.glassfish.jersey.client.ClientProperties;
 import org.junit.BeforeClass;
-import org.junit.ClassRule;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
-
-import javax.ws.rs.client.Client;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-
-import io.dropwizard.client.JerseyClientBuilder;
-import io.dropwizard.testing.ResourceHelpers;
-import io.dropwizard.testing.junit.DropwizardAppRule;
 
 /**
  * Integration test using the production configuration.
@@ -28,58 +11,37 @@ import io.dropwizard.testing.junit.DropwizardAppRule;
 @FixMethodOrder(value = MethodSorters.NAME_ASCENDING)
 public class SolarPanelsIT {
 
-  @ClassRule
-  public static final DropwizardAppRule<EnergyManagerConfiguration> APP_RULE = new DropwizardAppRule<>(
-      EnergyManagerApplication.class,
-      ResourceHelpers.resourceFilePath("it-config.yml")
-  );
+  // TODO II_ii_b DropWizardAppRule
 
   private static SolarPanelsResourceClient CLIENT;
 
   @BeforeClass
   public static void setUp() throws Exception {
-    final Client client = new JerseyClientBuilder(APP_RULE.getEnvironment())
-        .build("test client");
-    client.property(ClientProperties.CONNECT_TIMEOUT, 10000);
-    client.property(ClientProperties.READ_TIMEOUT, 10000);
-    CLIENT = new SolarPanelsResourceClient(client, APP_RULE.getLocalPort());
+    // TODO II_ii_b instantiate SolarPanelsResourceClient
   }
 
   @Test
   public void step01ASolarPanelShouldBeCreated() throws Exception {
-    CLIENT.createSolarPanel(new SolarPanel(null, "aPanel"), Response.class, response -> {
-      assertThat(response.getStatusInfo()).isEqualTo(Status.OK);
-    });
+    // TODO II_ii_b use client rule for assertions (see SolarPanelsResourceTest)
   }
 
   @Test
   public void step02ASolarPanelShouldBeMonitored() throws Exception {
-    final int id = 1;
-    final SolarPanel solarPanel = new SolarPanel((long) id, "aPanel");
-
-    CLIENT.getMonitoringData(id, 3, MonitoringData.class, monitoringData -> {
-      assertThat(monitoringData.getSolarPanel()).isEqualTo(solarPanel);
-      assertThat(monitoringData.getEntries()).hasSize(72);
-    });
+    // TODO II_ii_b use client rule for assertions (see SolarPanelsResourceTest)
   }
 
   @Test
   public void step03ASolarPanelMonitoringThrowsNotFoundWhenSolarPanelDoesNotExist() throws Exception {
-    CLIENT.getMonitoringData(0, 3, Response.class, response ->
-        assertThat(response.getStatusInfo()).isEqualTo(Status.NOT_FOUND));
+    // TODO II_ii_b use client rule for assertions (see SolarPanelsResourceTest)
   }
 
   @Test
   public void step04ASolarPanelMonitoringThrowsBadRequestWhenDaysIsANegativeNumber() throws Exception {
-    CLIENT.getMonitoringData(1, -1, Response.class, response ->
-        assertThat(response.getStatusInfo()).isEqualTo(Status.BAD_REQUEST));
+    // TODO II_ii_b use client rule for assertions (see SolarPanelsResourceTest)
   }
 
   @Test
   public void step05ShouldGetSolarPanels() throws Exception {
-    CLIENT.getSolarPanels(solarPanels -> {
-      assertThat(solarPanels).hasSize(1);
-      assertThat(solarPanels.get(0)).isEqualTo(new SolarPanel(1L, "aPanel"));
-    });
+    // TODO II_ii_b use client rule for assertions (see SolarPanelsResourceTest)
   }
 }
