@@ -66,6 +66,7 @@ public class SolarPanelsIT {
 
     CLIENT.getMonitoringData(id, 3, MonitoringData.class, monitoringData -> {
       assertThat(monitoringData.getSolarPanel()).isEqualTo(solarPanel);
+      assertThat(monitoringData.getEntries()).hasSize(72);
     });
   }
 

@@ -8,6 +8,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import de.saxsys.energymanager.api.MonitoringData;
+import de.saxsys.energymanager.api.MonitoringEntry;
 import de.saxsys.energymanager.api.SolarPanel;
 import de.saxsys.energymanager.model.SolarPanelDao;
 
@@ -15,6 +16,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.core.Response;
@@ -59,7 +61,7 @@ public class SolarPanelsResourceTest {
   public void solarPanelNameShouldNotBeNull() throws Exception {
     final SolarPanel solarPanel = new SolarPanel(null, null);
 
-    client.createSolarPanel(solarPanel, Response.class, response ->{
+    client.createSolarPanel(solarPanel, Response.class, response -> {
       assertThat(response.getStatus()).isEqualTo(422);  // 422 .. unprocessable entity
     });
   }
@@ -68,7 +70,7 @@ public class SolarPanelsResourceTest {
   public void solarPanelNameShouldNotBeEmpty() throws Exception {
     final SolarPanel solarPanel = new SolarPanel(null, "");
 
-    client.createSolarPanel(solarPanel, Response.class, response ->{
+    client.createSolarPanel(solarPanel, Response.class, response -> {
       assertThat(response.getStatus()).isEqualTo(422);  // 422 .. unprocessable entity
     });
   }
@@ -79,15 +81,25 @@ public class SolarPanelsResourceTest {
     final int days = 3;
     final SolarPanel solarPanel = new SolarPanel((long) id, "aPanel");
     when(solarPanelDao.isMonitored(id)).thenReturn(true);
+    final ArrayList<MonitoringEntry> monitoringEntries = createMonitoringEntries(72);
     when(solarPanelDao.generateMonitoringData(id, days))
-        .thenReturn(new MonitoringData(solarPanel, newArrayList()));
+        .thenReturn(new MonitoringData(solarPanel, monitoringEntries));
 
     client.getMonitoringData(id, days, MonitoringData.class, monitoringData -> {
       assertThat(monitoringData.getSolarPanel()).isEqualTo(solarPanel);
-      assertThat(monitoringData.getEntries()).isEmpty();
+      assertThat(monitoringData.getEntries()).hasSize(72);
       verify(solarPanelDao).isMonitored(id);
       verify(solarPanelDao).generateMonitoringData(id, days);
     });
+  }
+
+  private ArrayList<MonitoringEntry> createMonitoringEntries(final int size) {
+    final ArrayList<MonitoringEntry> monitoringEntries = newArrayList();
+    for (int i = 0; i < size; i++) {
+      monitoringEntries.add(new MonitoringEntry(i));
+    }
+
+    return monitoringEntries;
   }
 
   @Test
