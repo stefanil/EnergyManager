@@ -1,55 +1,34 @@
 package de.saxsys.energymanager.model;
 
-import static java.util.stream.Collectors.toList;
-
 import de.saxsys.energymanager.api.MonitoringData;
 import de.saxsys.energymanager.api.MonitoringEntry;
 import de.saxsys.energymanager.api.MonitoringEntry.Weather;
 import de.saxsys.energymanager.api.SolarPanel;
 
-import org.modelmapper.ModelMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-import javax.inject.Inject;
-import javax.inject.Provider;
-import javax.inject.Singleton;
-import javax.persistence.EntityManager;
-
-@Singleton
 public class SolarPanelDao {
-
-  private static final Logger LOG = LoggerFactory.getLogger(SolarPanelDao.class);
 
   /* **************** dirty singleton **************** */
 
-//  private static SolarPanelDao instance;
-//
-//  public static SolarPanelDao getInstance() {
-//    if (instance == null) {
-//      instance = new SolarPanelDao();
-//    }
-//    return instance;
-//  }
+  private static SolarPanelDao instance;
+
+  public static SolarPanelDao getInstance() {
+    if (instance == null) {
+      instance = new SolarPanelDao();
+    }
+    return instance;
+  }
+
+  private List<SolarPanel> solarPanels = Collections.emptyList();
 
   /* ************************************************* */
 
-  private final Provider<EntityManager> entityManager;
-  private ModelMapper modelMapper;
-
-  @Inject
-  public SolarPanelDao(final Provider<EntityManager> entityManager) {
-    this.entityManager = entityManager;
-    modelMapper = new ModelMapper();
-  }
-
   public void addSolarPanel(final SolarPanel solarPanel) {
-    final SolarPanelEntity solarPanelEntity = modelMapper.map(solarPanel, SolarPanelEntity.class);
-    entityManager.get().persist(solarPanelEntity);
+    solarPanels.add(solarPanel);
   }
 
   public boolean isMonitored(final long id) {
@@ -57,19 +36,15 @@ public class SolarPanelDao {
   }
 
   public SolarPanel findSolarPanel(final long id) {
-    final SolarPanelEntity solarPanelEntity = entityManager.get().find(SolarPanelEntity.class, id);
-    if (solarPanelEntity == null) {
-      LOG.warn("Solar panel entity with id {} was not found.", id);
-      return null;
-    }
-
-    return modelMapper.map(solarPanelEntity, SolarPanel.class);
+    return solarPanels.stream()
+        .filter(solarPanel -> solarPanel.getId() == id)
+        .findFirst()
+        .orElse(null);
   }
 
   public MonitoringData generateMonitoringData(final long id, final int days) {
     final SolarPanel solarPanel = findSolarPanel(id);
     if (solarPanel == null) {
-      LOG.warn("Cannot extract monitoring data for unknown solar panel with id {}", id);
       return null;
     }
 
@@ -77,10 +52,7 @@ public class SolarPanelDao {
   }
 
   public List<SolarPanel> findAllSolarPanels() {
-    return entityManager.get().createQuery("select s from solar_panel s", SolarPanelEntity.class)
-        .getResultList().stream()
-        .map(solarPanelEntity -> modelMapper.map(solarPanelEntity, SolarPanel.class))
-        .collect(toList());
+    return solarPanels;
   }
 
   private ArrayList<MonitoringEntry> generateEntries(final int days) {
