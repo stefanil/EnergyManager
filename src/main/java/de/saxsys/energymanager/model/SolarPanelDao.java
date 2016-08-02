@@ -5,8 +5,9 @@ import de.saxsys.energymanager.api.MonitoringEntry;
 import de.saxsys.energymanager.api.MonitoringEntry.Weather;
 import de.saxsys.energymanager.api.SolarPanel;
 
+import com.google.common.collect.Lists;
+
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -23,11 +24,12 @@ public class SolarPanelDao {
     return instance;
   }
 
-  private List<SolarPanel> solarPanels = Collections.emptyList();
+  private List<SolarPanel> solarPanels = Lists.newArrayList();
 
   /* ************************************************* */
 
   public void addSolarPanel(final SolarPanel solarPanel) {
+    solarPanel.setId((long) solarPanels.size() + 1);
     solarPanels.add(solarPanel);
   }
 
