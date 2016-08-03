@@ -8,9 +8,6 @@ import de.saxsys.energymanager.model.SolarPanelDao;
 
 import com.google.inject.persist.Transactional;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.List;
 
 import javax.validation.Valid;
@@ -30,8 +27,6 @@ import javax.ws.rs.core.Response.Status;
 @Produces(APPLICATION_JSON)
 public class SolarPanelsResource {
 
-  private static final Logger LOG = LoggerFactory.getLogger(SolarPanelsResource.class);
-
   private final SolarPanelDao solarPanelDao;
 
   public SolarPanelsResource(final SolarPanelDao solarPanelDao) {
@@ -41,8 +36,6 @@ public class SolarPanelsResource {
   @POST
   @Transactional
   public Response createSolarPanel(@Valid @NotNull final SolarPanel solarPanel) {
-    LOG.debug("Creating the solar panel {}", solarPanel);
-
     solarPanelDao.addSolarPanel(solarPanel);
     return Response.ok().build();
   }
@@ -51,16 +44,12 @@ public class SolarPanelsResource {
   @Path("{id}/{days}")
   @Transactional
   public MonitoringData getMonitoringData(@PathParam("id") int id, @PathParam("days") int days) {
-    LOG.info("Getting monitoring data for solar panel with index {}.", id);
-
     if (!solarPanelDao.isMonitored(id)) {
       final String message = "Solar panel with id " + id + " was not found.";
-      LOG.warn(message);
       throw new WebApplicationException(message, Status.NOT_FOUND);
     }
     if (days < 0) {
       final String message = "Days must be a positive integer value.";
-      LOG.error(message);
       throw new WebApplicationException(message, Status.BAD_REQUEST);
     }
 
