@@ -1,1 +1,16 @@
-
+logging:
+  level: INFO
+  appenders:
+      - type: console
+        timeZone: CET
+      - type: file
+        currentLogFilename: ../logs/energymanager.log
+        archivedLogFilenamePattern: ../logs/energymanager-%d{yyyy-MM-dd-HH-mm}.log.gz
+        archivedFileCount: 7
+        timeZone: CET
+      - type: file
+        threshold: DEBUG
+        currentLogFilename: ../logs/energymanager-debug.log
+        archivedLogFilenamePattern: ../logs/energymanager-debug-%d{yyyy-MM-dd-HH-mm}.log.gz
+        archivedFileCount: 3
+        timeZone: CET
