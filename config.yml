@@ -1,18 +1,20 @@
 logging:
-  level: INFO
+  level: DEBUG
   appenders:
       - type: console
+        threshold: INFO
         timeZone: CET
       - type: file
+        threshold: INFO
         currentLogFilename: ../logs/energymanager.log
         archivedLogFilenamePattern: ../logs/energymanager-%d{yyyy-MM-dd-HH-mm}.log.gz
-        archivedFileCount: 7
+        archivedFileCount: 4
         timeZone: CET
       - type: file
         threshold: DEBUG
         currentLogFilename: ../logs/energymanager-debug.log
         archivedLogFilenamePattern: ../logs/energymanager-debug-%d{yyyy-MM-dd-HH-mm}.log.gz
-        archivedFileCount: 3
+        archivedFileCount: 2
         timeZone: CET
 database:
   driverClass: org.hsqldb.jdbc.JDBCDriver
