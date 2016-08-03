@@ -24,9 +24,9 @@ public class SolarPanelDao {
     return instance;
   }
 
-  private List<SolarPanel> solarPanels = Lists.newArrayList();
-
   /* ************************************************* */
+
+  private List<SolarPanel> solarPanels = Lists.newArrayList();
 
   public void addSolarPanel(final SolarPanel solarPanel) {
     solarPanel.setId((long) solarPanels.size() + 1);
