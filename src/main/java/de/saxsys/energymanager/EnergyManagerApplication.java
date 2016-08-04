@@ -1,6 +1,8 @@
 package de.saxsys.energymanager;
 
 import de.saxsys.energymanager.configuration.EnergyManagerConfiguration;
+import de.saxsys.energymanager.model.SolarPanelDao;
+import de.saxsys.energymanager.resources.SolarPanelsResource;
 
 import org.eclipse.jetty.servlets.CrossOriginFilter;
 
@@ -34,7 +36,7 @@ public class EnergyManagerApplication extends Application<EnergyManagerConfigura
     // TODO II.iv instantiate guice injector with configuration module
 
     // TODO II.iv use injector to instantiate SolarPanelsResource
-//    environment.jersey().register(new SolarPanelsResource(SolarPanelDao.getInstance()));
+    environment.jersey().register(new SolarPanelsResource(SolarPanelDao.getInstance()));
 
     enableCrossOriginRequests(environment);
   }
