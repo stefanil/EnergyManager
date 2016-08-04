@@ -11,18 +11,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
+import javax.inject.Singleton;
+
+@Singleton
 public class SolarPanelDao {
 
   /* **************** dirty singleton **************** */
 
-  private static SolarPanelDao instance;
-
-  public static SolarPanelDao getInstance() {
-    if (instance == null) {
-      instance = new SolarPanelDao();
-    }
-    return instance;
-  }
+//  private static SolarPanelDao instance;
+//
+//  public static SolarPanelDao getInstance() {
+//    if (instance == null) {
+//      instance = new SolarPanelDao();
+//    }
+//    return instance;
+//  }
 
   /* ************************************************* */
 
