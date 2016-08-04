@@ -3,8 +3,8 @@ package de.saxsys.energymanager.model;
 import de.saxsys.energymanager.api.SolarPanel;
 
 public class SolarPanelDao {
-  
-  /* **************** dirty singleton **************** */
+
+  /* ******************* singleton ******************* */
 
   private static SolarPanelDao instance;
 
