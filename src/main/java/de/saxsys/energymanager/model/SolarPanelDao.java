@@ -25,7 +25,7 @@ public class SolarPanelDao {
 
   private static final Logger LOG = LoggerFactory.getLogger(SolarPanelDao.class);
 
-  /* **************** dirty singleton **************** */
+  /* ******************* singleton ******************* */
 
 //  private static SolarPanelDao instance;
 //
