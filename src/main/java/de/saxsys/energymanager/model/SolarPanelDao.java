@@ -14,7 +14,7 @@ import java.util.concurrent.ThreadLocalRandom;
 // TODO II.iv declare as singleton
 public class SolarPanelDao {
 
-  /* **************** dirty singleton **************** */
+  /* ******************* singleton ******************* */
 
 //  private static SolarPanelDao instance;
 //
