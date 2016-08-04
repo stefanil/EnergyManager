@@ -16,7 +16,7 @@ import javax.inject.Singleton;
 @Singleton
 public class SolarPanelDao {
 
-  /* **************** dirty singleton **************** */
+  /* ******************* singleton ******************* */
 
 //  private static SolarPanelDao instance;
 //
