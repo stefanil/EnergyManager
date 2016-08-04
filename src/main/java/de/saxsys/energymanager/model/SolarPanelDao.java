@@ -11,9 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-import javax.inject.Singleton;
-
-@Singleton
+// TODO II.iv declare as singleton
 public class SolarPanelDao {
 
   /* **************** dirty singleton **************** */

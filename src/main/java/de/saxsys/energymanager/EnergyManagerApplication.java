@@ -1,12 +1,6 @@
 package de.saxsys.energymanager;
 
 import de.saxsys.energymanager.configuration.EnergyManagerConfiguration;
-import de.saxsys.energymanager.resources.SolarPanelsResource;
-
-import com.google.inject.AbstractModule;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import com.google.inject.Module;
 
 import org.eclipse.jetty.servlets.CrossOriginFilter;
 
@@ -37,24 +31,12 @@ public class EnergyManagerApplication extends Application<EnergyManagerConfigura
 
   @Override
   public void run(final EnergyManagerConfiguration configuration, final Environment environment) {
-    final Injector injector = createInjector(configuration, environment);
+    // TODO II.iv instantiate guice injector with configuration module
 
-    environment.jersey().register(injector.getInstance(SolarPanelsResource.class));
+    // TODO II.iv use injector to instantiate SolarPanelsResource
+//    environment.jersey().register(new SolarPanelsResource(SolarPanelDao.getInstance()));
 
     enableCrossOriginRequests(environment);
-  }
-
-  private Injector createInjector(final EnergyManagerConfiguration configuration, final Environment environment) {
-    return Guice.createInjector(createGuiceModule(configuration, environment));
-  }
-
-  protected Module createGuiceModule(final EnergyManagerConfiguration configuration, final Environment environment) {
-    return new AbstractModule() {
-      @Override
-      protected void configure() {
-        bind(EnergyManagerConfiguration.class).toInstance(configuration);
-      }
-    };
   }
 
   // enable angularJS 2 clients to access resources offered by this server
