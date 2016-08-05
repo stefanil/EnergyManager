@@ -72,8 +72,6 @@ public class EnergyManagerApplication extends Application<EnergyManagerConfigura
     return new AbstractModule() {
       @Override
       protected void configure() {
-        // TODO bind dropwizard components (i.e. configuration tree and environment validator) to prevent them from
-        // being instantiated twice (by drop wizard and google guice)
         bind(EnergyManagerConfiguration.class).toInstance(configuration);
         bind(DatabaseConfiguration.class).toInstance(configuration.getDatabase());
         bind(Validator.class).toInstance(environment.getValidator());
