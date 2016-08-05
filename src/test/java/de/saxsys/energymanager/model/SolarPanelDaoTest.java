@@ -43,7 +43,7 @@ public class SolarPanelDaoTest {
     final String name = "aPanel";
     doNothing().when(em).persist(isA(SolarPanelEntity.class));
     doAnswer(invocation -> {
-      final SolarPanelEntity solarPanelEntity = invocation.getArgument(0);
+      final SolarPanelEntity solarPanelEntity = invocation.getArgumentAt(0, SolarPanelEntity.class);
       assertThat(solarPanelEntity.getName()).isEqualTo(name);
       assertThat(solarPanelEntity.getId()).isNull();
 
