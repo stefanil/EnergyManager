@@ -14,16 +14,17 @@ import java.util.concurrent.ThreadLocalRandom;
 // TODO II.iv declare as singleton
 public class SolarPanelDao {
 
+  // TODO II.iv remove
   /* ******************* singleton ******************* */
 
-//  private static SolarPanelDao instance;
-//
-//  public static SolarPanelDao getInstance() {
-//    if (instance == null) {
-//      instance = new SolarPanelDao();
-//    }
-//    return instance;
-//  }
+  private static SolarPanelDao instance;
+
+  public static SolarPanelDao getInstance() {
+    if (instance == null) {
+      instance = new SolarPanelDao();
+    }
+    return instance;
+  }
 
   /* ************************************************* */
 
