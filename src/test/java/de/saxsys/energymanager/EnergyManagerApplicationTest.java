@@ -9,9 +9,7 @@ import static org.mockito.Mockito.when;
 
 import de.saxsys.energymanager.configuration.DatabaseConfiguration;
 import de.saxsys.energymanager.configuration.EnergyManagerConfiguration;
-import de.saxsys.energymanager.health.DatabaseHealthCheck;
 import de.saxsys.energymanager.resources.SolarPanelsResource;
-import de.saxsys.energymanager.tasks.DbShutdownTask;
 
 import com.codahale.metrics.health.HealthCheckRegistry;
 
@@ -66,19 +64,5 @@ public class EnergyManagerApplicationTest {
     application.run(energyManagerConfiguration, environment);
 
     verify(jersey).register(isA(SolarPanelsResource.class));
-  }
-
-  @Test
-  public void shouldRegisterDatabaseHealthCheck() throws Exception {
-    application.run(energyManagerConfiguration, environment);
-
-    verify(healthChecks).register(eq("database"), eq(new DatabaseHealthCheck(databaseConfiguration)));
-  }
-
-  @Test
-  public void shouldAddDbShutdownTask() throws Exception {
-    application.run(energyManagerConfiguration, environment);
-
-    verify(adminEnvironment).addTask(isA(DbShutdownTask.class));
   }
 }

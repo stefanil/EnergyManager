@@ -2,9 +2,7 @@ package de.saxsys.energymanager;
 
 import de.saxsys.energymanager.configuration.DatabaseConfiguration;
 import de.saxsys.energymanager.configuration.EnergyManagerConfiguration;
-import de.saxsys.energymanager.health.DatabaseHealthCheck;
 import de.saxsys.energymanager.resources.SolarPanelsResource;
-import de.saxsys.energymanager.tasks.DbShutdownTask;
 import de.saxsys.energymanager.util.DbUtil;
 
 import com.google.inject.AbstractModule;
@@ -54,9 +52,6 @@ public class EnergyManagerApplication extends Application<EnergyManagerConfigura
     // injector.getInstance(PersistService.class).start();
 
     environment.jersey().register(injector.getInstance(SolarPanelsResource.class));
-    environment.healthChecks().register("database", new DatabaseHealthCheck(configuration.getDatabase()));
-
-    environment.admin().addTask(new DbShutdownTask(configuration.getDatabase()));
 
     enableCrossOriginRequests(environment);
   }
