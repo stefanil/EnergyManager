@@ -34,12 +34,13 @@ import io.dropwizard.setup.Environment;
  */
 public class EnergyManagerApplicationTest {
 
+  private final EnergyManagerApplication cut = new EnergyManagerApplication();
+
   private final Environment environment = mock(Environment.class);
   private final JerseyEnvironment jersey = mock(JerseyEnvironment.class);
   private final HealthCheckRegistry healthChecks = mock(HealthCheckRegistry.class);
   private final DropwizardConfiguredValidator validator = mock(DropwizardConfiguredValidator.class);
   private final AdminEnvironment adminEnvironment = mock(AdminEnvironment.class);
-  private final EnergyManagerApplication application = new EnergyManagerApplication();
   private final DatabaseConfiguration databaseConfiguration = new DatabaseConfiguration();
   private final EnergyManagerConfiguration energyManagerConfiguration = new EnergyManagerConfiguration();
   private final ServletEnvironment servletEnvironment = mock(ServletEnvironment.class);
@@ -63,21 +64,21 @@ public class EnergyManagerApplicationTest {
 
   @Test
   public void shouldRegisterSolarPanelResource() throws Exception {
-    application.run(energyManagerConfiguration, environment);
+    cut.run(energyManagerConfiguration, environment);
 
     verify(jersey).register(isA(SolarPanelsResource.class));
   }
 
   @Test
   public void shouldRegisterDatabaseHealthCheck() throws Exception {
-    application.run(energyManagerConfiguration, environment);
+    cut.run(energyManagerConfiguration, environment);
 
     verify(healthChecks).register(eq("database"), eq(new DatabaseHealthCheck(databaseConfiguration)));
   }
 
   @Test
   public void shouldAddDbShutdownTask() throws Exception {
-    application.run(energyManagerConfiguration, environment);
+    cut.run(energyManagerConfiguration, environment);
 
     verify(adminEnvironment).addTask(isA(DbShutdownTask.class));
   }
