@@ -1,18 +1,18 @@
 package de.saxsys.energymanager;
 
-import static de.saxsys.energymanager.util.DbUtil.createJpaPersistModule;
-
 import de.saxsys.energymanager.configuration.DatabaseConfiguration;
 import de.saxsys.energymanager.configuration.EnergyManagerConfiguration;
 import de.saxsys.energymanager.health.DatabaseHealthCheck;
 import de.saxsys.energymanager.resources.SolarPanelsResource;
 import de.saxsys.energymanager.tasks.DbShutdownTask;
+import de.saxsys.energymanager.util.DbUtil;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.google.inject.persist.PersistFilter;
+import com.google.inject.persist.jpa.JpaPersistModule;
 
 import org.eclipse.jetty.servlets.CrossOriginFilter;
 
@@ -78,6 +78,13 @@ public class EnergyManagerApplication extends Application<EnergyManagerConfigura
 
       }
     };
+  }
+
+  public Module createJpaPersistModule(final DatabaseConfiguration databaseConfiguration) {
+    final JpaPersistModule jpaModule = new JpaPersistModule("Default");
+    jpaModule.properties(DbUtil.getJPAConnectionProperties(databaseConfiguration));
+
+    return jpaModule;
   }
 
   // enable angularJS 2 clients to access resources offered by this server

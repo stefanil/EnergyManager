@@ -52,7 +52,7 @@ public class DbUtil {
     });
   }
 
-  private static Properties getJPAConnectionProperties(final DatabaseConfiguration databaseConfiguration) {
+  public static Properties getJPAConnectionProperties(final DatabaseConfiguration databaseConfiguration) {
     final Properties properties = new Properties();
     properties.put("javax.persistence.jdbc.driver", nullToEmpty(databaseConfiguration.getDriverClass()));
     properties.put("javax.persistence.jdbc.user", nullToEmpty(databaseConfiguration.getUser()));
