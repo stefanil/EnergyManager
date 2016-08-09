@@ -1,16 +1,12 @@
 package de.saxsys.energymanager;
 
-import de.saxsys.energymanager.configuration.DatabaseConfiguration;
 import de.saxsys.energymanager.configuration.EnergyManagerConfiguration;
 import de.saxsys.energymanager.resources.SolarPanelsResource;
-import de.saxsys.energymanager.util.DbUtil;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
-import com.google.inject.persist.PersistFilter;
-import com.google.inject.persist.jpa.JpaPersistModule;
 
 import org.eclipse.jetty.servlets.CrossOriginFilter;
 
@@ -43,13 +39,7 @@ public class EnergyManagerApplication extends Application<EnergyManagerConfigura
   @Override
   public void run(final EnergyManagerConfiguration configuration, final Environment environment) {
     final Injector injector = createInjector(configuration, environment);
-    // use of session-per-http-request strategy
-    environment.servlets().addFilter(
-        "persist-filter",
-        injector.getInstance(PersistFilter.class)
-    ).addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), true, "/*");
-    // for session-per-transaction-strategy we could simply use the following
-    // injector.getInstance(PersistService.class).start();
+    // TODO v_ii register PersistFilter (use of session-per-http-request strategy)
 
     environment.jersey().register(injector.getInstance(SolarPanelsResource.class));
 
@@ -58,8 +48,8 @@ public class EnergyManagerApplication extends Application<EnergyManagerConfigura
 
   private Injector createInjector(final EnergyManagerConfiguration configuration, final Environment environment) {
     return Guice.createInjector(
-        createGuiceModule(configuration, environment),
-        createJpaPersistModule(configuration.getDatabase())
+        createGuiceModule(configuration, environment)
+        // TODO v_ii create and register JPAPersistModule with Guice
     );
   }
 
@@ -68,18 +58,11 @@ public class EnergyManagerApplication extends Application<EnergyManagerConfigura
       @Override
       protected void configure() {
         bind(EnergyManagerConfiguration.class).toInstance(configuration);
-        bind(DatabaseConfiguration.class).toInstance(configuration.getDatabase());
+        // TODO v_ii bind DatabaseConfiguration.class to instance of database configuration instantiated by Dropwizard
+        // earlier
         bind(Validator.class).toInstance(environment.getValidator());
-
       }
     };
-  }
-
-  public Module createJpaPersistModule(final DatabaseConfiguration databaseConfiguration) {
-    final JpaPersistModule jpaModule = new JpaPersistModule("Default");
-    jpaModule.properties(DbUtil.getJPAConnectionProperties(databaseConfiguration));
-
-    return jpaModule;
   }
 
   // enable angularJS 2 clients to access resources offered by this server
