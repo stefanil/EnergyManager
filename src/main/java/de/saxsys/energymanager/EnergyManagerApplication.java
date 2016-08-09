@@ -55,7 +55,6 @@ public class EnergyManagerApplication extends Application<EnergyManagerConfigura
 
     environment.jersey().register(injector.getInstance(SolarPanelsResource.class));
     environment.healthChecks().register("database", new DatabaseHealthCheck(configuration.getDatabase()));
-
     environment.admin().addTask(new DbShutdownTask(configuration.getDatabase()));
 
     enableCrossOriginRequests(environment);
