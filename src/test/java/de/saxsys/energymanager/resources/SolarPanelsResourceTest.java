@@ -51,6 +51,14 @@ public class SolarPanelsResourceTest {
 
   // II.ii.a.2
   @Test
+  public void solarPanelShouldNotBeNull() throws Exception {
+    client.createSolarPanel(null, Response.class, response ->{
+      assertThat(response.getStatus()).isEqualTo(422);  // 422 .. unprocessable entity
+    });
+  }
+
+  // II.ii.a.2
+  @Test
   public void solarPanelNameShouldNotBeNull() throws Exception {
     final SolarPanel solarPanel = new SolarPanel(null, null);
 
