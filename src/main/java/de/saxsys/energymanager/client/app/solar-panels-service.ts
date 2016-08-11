@@ -19,6 +19,7 @@ export class SolarPanelsService {
   };
   private baseUrl = 'http://localhost:8080';
   private solarPanelsUrl = this.baseUrl + '/solarPanels';
+  private shutdownDbUrl = 'http://localhost:8081/tasks/dbShutdown';
 
   constructor(private http:Http) {
   }
@@ -41,6 +42,13 @@ export class SolarPanelsService {
         .map(response => {
           return <MonitoringData>response.json();
         }).share()
+        .catch(this.handleError);
+  }
+
+  shutdownDb() {
+    return this.http.post(this.shutdownDbUrl, "", this.headers)
+        .map(response => response.text())
+        .share()
         .catch(this.handleError);
   }
 
