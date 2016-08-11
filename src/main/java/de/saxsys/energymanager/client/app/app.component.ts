@@ -45,4 +45,11 @@ export class AppComponent {
   showMonitoringData(solarPanel:SolarPanel) {
     this.selectedSolarPanel = solarPanel;
   }
+
+  shutdownDb() {
+    this.solarPanelsService.shutdownDb().subscribe(
+      text => {},
+      error => {}
+    );
+  }
 }
