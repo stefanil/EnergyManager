@@ -52,7 +52,7 @@ public class EnergyManagerApplication extends Application<EnergyManagerConfigura
     return new AbstractModule() {
       @Override
       protected void configure() {
-        bind(EnergyManagerConfiguration.class).toInstance(configuration);
+        // nothing to do here
       }
     };
   }
