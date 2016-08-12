@@ -1,5 +1,7 @@
 package de.saxsys.energymanager;
 
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.doNothing;
@@ -54,6 +56,7 @@ public class EnergyManagerApplicationTest {
     when(environment.getValidator()).thenReturn(validator);
     when(environment.admin()).thenReturn(adminEnvironment);
     doNothing().when(adminEnvironment).addTask(isA(Task.class));
+    when(adminEnvironment.addFilter(anyString(), any(Class.class))).thenReturn(mock(Dynamic.class));
     when(environment.servlets()).thenReturn(servletEnvironment);
     when(servletEnvironment.addFilter(eq("persist-filter"), isA(Filter.class)))
         .thenReturn(filterRegistration);

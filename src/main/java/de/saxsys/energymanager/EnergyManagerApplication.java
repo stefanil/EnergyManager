@@ -85,11 +85,17 @@ public class EnergyManagerApplication extends Application<EnergyManagerConfigura
   // enable angularJS 2 clients to access resources offered by this server
   private void enableCrossOriginRequests(final Environment environment) {
     final Dynamic corsFilter = environment.servlets().addFilter("CORS", CrossOriginFilter.class);
-    corsFilter.setInitParameter(CrossOriginFilter.ALLOWED_METHODS_PARAM,"GET,PUT,POST,DELETE,OPTIONS");
+    corsFilter.setInitParameter(CrossOriginFilter.ALLOWED_METHODS_PARAM, "GET,PUT,POST,DELETE,OPTIONS");
     corsFilter.setInitParameter(CrossOriginFilter.ALLOWED_ORIGINS_PARAM, "*");
     corsFilter.setInitParameter(CrossOriginFilter.ALLOWED_HEADERS_PARAM,
         "Content-Type,Authorization,X-Requested-With,Content-Length,Accept,Origin");
     corsFilter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
+    final Dynamic adminCorsFilter = environment.admin().addFilter("CORS", CrossOriginFilter.class);
+    adminCorsFilter.setInitParameter(CrossOriginFilter.ALLOWED_METHODS_PARAM, "GET,PUT,POST,DELETE,OPTIONS");
+    adminCorsFilter.setInitParameter(CrossOriginFilter.ALLOWED_ORIGINS_PARAM, "*");
+    adminCorsFilter.setInitParameter(CrossOriginFilter.ALLOWED_HEADERS_PARAM,
+        "Content-Type,Authorization,X-Requested-With,Content-Length,Accept,Origin");
+    adminCorsFilter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
   }
 
 }
