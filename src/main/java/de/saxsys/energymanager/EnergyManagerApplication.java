@@ -69,8 +69,7 @@ public class EnergyManagerApplication extends Application<EnergyManagerConfigura
     return new AbstractModule() {
       @Override
       protected void configure() {
-        bind(EnergyManagerConfiguration.class).toInstance(configuration);
-        // TODO II_vi bind database configuration and validator classes to its instances
+        // nothing to do here
       }
     };
   }
