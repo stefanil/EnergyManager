@@ -90,6 +90,12 @@ public class EnergyManagerApplication extends Application<EnergyManagerConfigura
     corsFilter.setInitParameter(CrossOriginFilter.ALLOWED_HEADERS_PARAM,
         "Content-Type,Authorization,X-Requested-With,Content-Length,Accept,Origin");
     corsFilter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
+    final Dynamic adminCorsFilter = environment.admin().addFilter("CORS", CrossOriginFilter.class);
+    adminCorsFilter.setInitParameter(CrossOriginFilter.ALLOWED_METHODS_PARAM, "GET,PUT,POST,DELETE,OPTIONS");
+    adminCorsFilter.setInitParameter(CrossOriginFilter.ALLOWED_ORIGINS_PARAM, "*");
+    adminCorsFilter.setInitParameter(CrossOriginFilter.ALLOWED_HEADERS_PARAM,
+        "Content-Type,Authorization,X-Requested-With,Content-Length,Accept,Origin");
+    adminCorsFilter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
   }
 
 }
