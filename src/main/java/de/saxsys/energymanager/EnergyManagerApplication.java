@@ -18,7 +18,6 @@ import java.util.EnumSet;
 
 import javax.servlet.DispatcherType;
 import javax.servlet.FilterRegistration.Dynamic;
-import javax.validation.Validator;
 
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
@@ -67,10 +66,7 @@ public class EnergyManagerApplication extends Application<EnergyManagerConfigura
     return new AbstractModule() {
       @Override
       protected void configure() {
-        bind(EnergyManagerConfiguration.class).toInstance(configuration);
-        bind(DatabaseConfiguration.class).toInstance(configuration.getDatabase());
-        bind(Validator.class).toInstance(environment.getValidator());
-
+        // nothing to do here
       }
     };
   }
