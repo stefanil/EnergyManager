@@ -20,4 +20,8 @@
 
   <name>EnergyManager</name>
 
+  <properties>
+    <jetty-version>9.3.9.v20160517</jetty-version>
+  </properties>
+
 </project>

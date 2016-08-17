@@ -3,7 +3,7 @@ package de.saxsys.energymanager.services;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.WebSocketAdapter;
 
-public class EventSocket extends WebSocketAdapter {
+public class ClientSocket extends WebSocketAdapter {
 
   @Override
   public void onWebSocketConnect(Session sess) {

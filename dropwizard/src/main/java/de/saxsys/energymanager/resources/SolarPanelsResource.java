@@ -5,6 +5,7 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import de.saxsys.energymanager.api.MonitoringData;
 import de.saxsys.energymanager.api.SolarPanel;
 import de.saxsys.energymanager.model.SolarPanelDao;
+import de.saxsys.energymanager.services.SolarPanelService;
 
 import com.google.inject.persist.Transactional;
 
@@ -34,10 +35,12 @@ public class SolarPanelsResource {
   private static final Logger LOG = LoggerFactory.getLogger(SolarPanelsResource.class);
 
   private final SolarPanelDao solarPanelDao;
+  private final SolarPanelService solarPanelService;
 
   @Inject
-  public SolarPanelsResource(final SolarPanelDao solarPanelDao) {
+  public SolarPanelsResource(final SolarPanelDao solarPanelDao, final SolarPanelService solarPanelService) {
     this.solarPanelDao = solarPanelDao;
+    this.solarPanelService = solarPanelService;
   }
 
   @POST
@@ -46,6 +49,8 @@ public class SolarPanelsResource {
     LOG.debug("Creating the solar panel {}", solarPanel);
 
     solarPanelDao.addSolarPanel(solarPanel);
+    solarPanelService.send(solarPanel);
+
     return Response.ok().build();
   }
 

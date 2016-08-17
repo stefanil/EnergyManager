@@ -11,13 +11,6 @@
 
   <artifactId>jetty</artifactId>
 
-  <properties>
-    <!--<jetty-version>9.4.0.M1</jetty-version>-->
-    <!--<jetty-version>9.2.7.v20150116</jetty-version>-->
-    <!--<jetty-version>9.2.18.v20160721</jetty-version>-->
-    <jetty-version>9.3.9.v20160517</jetty-version>
-  </properties>
-
   <dependencies>
     <dependency>
       <groupId>org.eclipse.jetty.websocket</groupId>
