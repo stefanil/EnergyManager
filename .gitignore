@@ -1,6 +1,6 @@
 target/
-dependency-reduced-pom.xml
 
 .idea/
-server.iml
+parent.iml
 
+logs/
