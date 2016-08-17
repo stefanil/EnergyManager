@@ -22,6 +22,7 @@ import javax.servlet.DispatcherType;
 import javax.servlet.FilterRegistration.Dynamic;
 
 import io.dropwizard.Application;
+import io.dropwizard.assets.AssetsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 
@@ -38,7 +39,7 @@ public class EnergyManagerApplication extends Application<EnergyManagerConfigura
 
   @Override
   public void initialize(final Bootstrap<EnergyManagerConfiguration> bootstrap) {
-    // nothing to do here
+    bootstrap.addBundle(new AssetsBundle("/de/saxsys/energymanager/assets", "/", "index.html"));
   }
 
   @Override

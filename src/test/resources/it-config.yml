@@ -10,3 +10,6 @@ database:
   url: jdbc:hsqldb:mem:testdb
   mode: create-drop
   dialect: org.hibernate.dialect.HSQLDialect
+
+server:
+  rootPath: /api/

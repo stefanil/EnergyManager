@@ -32,7 +32,7 @@ public class SolarPanelsResourceClient extends JerseyClient {
   public SolarPanelsResourceClient(final Client client, final int localPort) {
     this.client = client;
     baseUri = localPort >= 0
-        ? String.format("http://localhost:%d" + BASE_PATH_SOLAR_PANELS_RESOURCE, localPort)
+        ? String.format("http://localhost:%d/api" + BASE_PATH_SOLAR_PANELS_RESOURCE, localPort)
         : BASE_PATH_SOLAR_PANELS_RESOURCE;
   }
 
